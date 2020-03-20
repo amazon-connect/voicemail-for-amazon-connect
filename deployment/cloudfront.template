@@ -1,0 +1,278 @@
+###
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+#
+# Licensed under the Apache License Version 2.0 (the 'License').
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#         http://www.apache.org/licenses/
+#
+# or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied. See the License for the
+# specific language governing permissions and limitations under the License.
+#
+##
+
+AWSTemplateFormatVersion: 2010-09-09
+Description: Amazon Connect VM Portal Stack
+Parameters:
+  DefaultRoot:
+    Description: 'The default path for the index document.'
+    Type: String
+    Default: 'index.html'
+  ErrorPage:
+    Description: 'The path of the error page for the website.'
+    Type: String
+    Default: 'error.html'
+  BaseApi:
+    Type: String
+    Default: ''
+  ApiGatewayApiKey:
+    Type: String
+    Default: ''
+  HostingBucketName:
+    Default: ''
+    Type: String
+  HostingBucketKeyPrefix:
+    Default: ''
+    Type: String
+  HostingKeyPrefix:
+    Default: ''
+    Type: String
+  UserPoolArn:
+    Type: String
+  UserPoolId:
+    Description: "Cognito user pool's id used for authentication"
+    Type: String
+  CognitoDomain:
+    Description: "Cognito domain"
+    Type: String
+  SolutionHelperFunctionArn:
+    Description: "Arn for the Lambda function with helper functions"
+    Type: String
+  PortalBucket:
+    Description: "Bucket to hold the portal website code"
+    Type: String
+  PortalBucketDomainName:
+    Type: String
+  PortalBucketArn:
+    Type: String
+
+Resources:
+  CloudFrontOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: !Ref PortalBucket
+  PortalBucketReadPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref PortalBucket
+      PolicyDocument:
+        Statement:
+          - Action: 's3:GetObject'
+            Effect: Allow
+            Resource: !Sub 'arn:aws:s3:::${PortalBucket}/*'
+            Principal:
+              CanonicalUser: !GetAtt CloudFrontOriginAccessIdentity.S3CanonicalUserId
+          - Action: "s3:GetObject"
+            Effect: Deny
+            Resource: !Sub 'arn:aws:s3:::${PortalBucket}/*'
+            Principal: "*"
+            Condition:
+              Bool:
+                'aws:SecureTransport': 'false'
+  CloudFrontDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        DefaultRootObject: !Sub '/${DefaultRoot}'
+        Enabled: true
+        HttpVersion: http2
+        Logging:
+          Bucket: !Ref PortalBucketDomainName
+          Prefix: 'logs/'
+          IncludeCookies: true
+        Origins:
+          - DomainName: !Ref PortalBucketDomainName
+            Id: s3origin
+            S3OriginConfig:
+              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${CloudFrontOriginAccessIdentity}'
+        PriceClass: PriceClass_All
+        CustomErrorResponses:
+          - ErrorCode: 403
+            ResponseCode: 200
+            ResponsePagePath: !Sub '/${DefaultRoot}'
+          - ErrorCode: 404
+            ResponseCode: 200
+            ResponsePagePath: !Sub '/${DefaultRoot}'
+        DefaultCacheBehavior:
+          AllowedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          CachedMethods:
+            - GET
+            - HEAD
+            - OPTIONS
+          Compress: true
+          DefaultTTL: 3600
+          ForwardedValues:
+            Cookies:
+              Forward: none
+            QueryString: false
+          MaxTTL: 86400
+          MinTTL: 60
+          TargetOriginId: s3origin
+          ViewerProtocolPolicy: 'redirect-to-https'
+  CopyObjects:
+    DependsOn:
+      - CleanUpS3Bucket
+    Type: AWS::CloudFormation::CustomResource
+    Properties:
+      ServiceToken: !Ref SolutionHelperFunctionArn
+      SourceBucket: !Ref HostingBucketName
+      DestBucket: !Ref PortalBucket
+      SourcePrefixKey: !Ref HostingBucketKeyPrefix
+      BaseApi: !Ref BaseApi
+      ApiGatewayKey: !Ref ApiGatewayApiKey
+      DistributionId: !Ref CloudFrontDistribution
+      CognitoDomain: !Ref CognitoDomain
+      UserPoolId: !Ref UserPoolId
+      ClientId: !Ref UserPoolClient
+      RedirDomain: !Sub https://${CloudFrontDistribution.DomainName}/login
+      customAction: 'copyWebAssets'
+
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      UserPoolId: !Ref UserPoolId
+      GenerateSecret: false
+      RefreshTokenValidity: 30
+      ReadAttributes:
+        - family_name
+        - given_name
+        - email
+      WriteAttributes:
+        - family_name
+        - given_name
+        - email
+      AllowedOAuthFlows:
+        - code
+      SupportedIdentityProviders:
+        - COGNITO
+      AllowedOAuthFlowsUserPoolClient: true
+      PreventUserExistenceErrors: "ENABLED"
+      RefreshTokenValidity: 1
+      AllowedOAuthScopes:
+        - openid
+        - profile
+      CallbackURLs:
+        - !Sub https://${CloudFrontDistribution.DomainName}/login
+      LogoutURLs:
+        - !Sub https://${CloudFrontDistribution.DomainName}/login
+
+  UserPoolHostUICustomization:
+    Type: Custom::UserPoolCustomization
+    Properties:
+      ServiceToken: !GetAtt CloudfrontHelperFunction.Arn
+      customAction: 'customizeUserPool'
+      ClientId: !Ref UserPoolClient
+      ImageFile: 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
+      CSS: |
+        .banner-customizable {
+          background-color: #fff;
+        }
+
+        .submitButton-customizable {
+          background-color: #3d4e62;
+        }
+
+        .submitButton-customizable:hover {
+          background-color: rgb(42, 54, 68);
+        }
+
+        .errorMessage-customizable {
+          border: none;
+          background: #fff;
+        }
+      UserPoolId: !Ref UserPoolId
+
+  CleanUpS3Bucket:
+    Properties:
+      DestBucket: !Ref PortalBucket
+      ServiceToken: !GetAtt CloudfrontHelperFunction.Arn
+      customAction: 'cleanUpS3Bucket'
+    Type: AWS::CloudFormation::CustomResource
+  CloudfrontHelperFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+          S3Bucket: !Ref HostingBucketName
+          S3Key: !Sub "${HostingKeyPrefix}aws-connect-vm.zip"
+      Description: CloudFront Lambda Function
+      Handler: handler/cloudfront-helper.handler
+      MemorySize: 256
+      Role: !GetAtt CloudfrontHelperRole.Arn
+      Runtime: nodejs10.x
+      Timeout: 300
+  CloudfrontHelperRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      Path: "/"
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
+              - Action:
+                  - s3:PutObject
+                  - s3:DeleteObject
+                  - s3:GetObject
+                  - s3:ListBucket
+                  - s3:ListBucketVersions
+                  - s3:DeleteObjectVersion
+                  - s3:GetObjectVersion
+                  - s3:GetBucketVersioning
+                Effect: Allow
+                Resource:
+                  - !Ref PortalBucketArn
+              - Action:
+                  - cloudfront:CreateInvalidation
+                  - cloudfront:GetInvalidation
+                  - cloudfront:ListInvalidations
+                Effect: Allow
+                Resource:
+                 - Fn::Sub: arn:aws:cloudfront::${AWS::AccountId}:distribution/${CloudFrontDistribution}
+              - Action:
+                  - cognito-idp:SetUICustomization
+                Effect: Allow
+                Resource: !Ref UserPoolArn
+            Version: '2012-10-17'
+          PolicyName: Empty-bucket
+    Type: AWS::IAM::Role
+
+Outputs:
+  DefaultRoot:
+    Value: !Ref DefaultRoot
+  ErrorPage:
+    Value: !Ref ErrorPage
+  PortalBucketName:
+    Value: !Ref PortalBucket
+  PortalBucketRegion:
+    Value: !Ref "AWS::Region"
+  DistributionId:
+    Value: !Ref CloudFrontDistribution
+  DistributionDomainName:
+    Value: !GetAtt CloudFrontDistribution.DomainName

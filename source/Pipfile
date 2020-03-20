@@ -1,0 +1,13 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+boto3 = "==1.10.17"
+
+[requires]
+python_version = "2.7"
+
+[scripts]
+host_files = "python ./tools/host_files.py"
