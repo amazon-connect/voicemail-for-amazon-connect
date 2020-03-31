@@ -85,7 +85,7 @@ class ConnectService {
                 let {UserSummaryList, NextToken} = data;
                 let users = list.concat(UserSummaryList);
                 if (NextToken) {
-                    return this._listConnectUsers(users, NextToken, 0, callback);
+                    return this._listConnectUsers(users, NextToken, 0);
                 } else {
                     return users;
                 }
@@ -98,7 +98,7 @@ class ConnectService {
 
                 return delay(Math.min(Math.pow(retry, 2), this.maxBackOffTime))
                     .then(() => {
-                        this._listConnectUsers(users, nextToken, retry + 1, callback);
+                        this._listConnectUsers(users, nextToken, retry + 1);
                     })
             });
     }

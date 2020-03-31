@@ -1363,7 +1363,7 @@
         "Type": "TOKEN"
       }
     },
-    "ApiGatewayDeployment1584643378427": {
+    "ApiGatewayDeployment1585616630655": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1411,11 +1411,11 @@
           }
         ]
       },
-      "DependsOn": "ApiGatewayDeployment1584643378427"
+      "DependsOn": "ApiGatewayDeployment1585616630655"
     },
     "ApiGatewayUsagePlan": {
       "Type": "AWS::ApiGateway::UsagePlan",
-      "DependsOn": "ApiGatewayDeployment1584643378427",
+      "DependsOn": "ApiGatewayDeployment1585616630655",
       "Properties": {
         "ApiStages": [
           {
@@ -1911,7 +1911,7 @@
             "Arn"
           ]
         },
-        "UUID": "9e25b9a8-8b34-49e4-a9ab-63ccef24dded",
+        "UUID": "a7330f7a-70a9-4ccf-b187-cef136c969d1",
         "AdminEmail": {
           "Ref": "AdminEmail"
         },

@@ -104,7 +104,7 @@ class DynamoDBService {
     _batchWrite(batch, startingIndex) {
         return new Promise((resolve, reject) => {
             // DDB has a limit of 25 items at once
-            let maxDdbUpdate = 5;
+            let maxDdbUpdate = 24;
             let endIndex = (batch.length > startingIndex + maxDdbUpdate) ? startingIndex + maxDdbUpdate : batch.length;
             let batchToUpdate = batch.slice(startingIndex, endIndex);
 
