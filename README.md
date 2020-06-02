@@ -1,5 +1,6 @@
 # Voicemail for Amazon Connect
-This solutions deploys the resources necessary to configure a voicemail system to use with Amazon Connect.
+
+This solutions deploys the resources necessary to configure a voicemail system to use with Amazon Connect. See [Solution Architecture](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/).
 
 ## Running unit tests for customization
 * Clone the repository, then make the desired code changes
