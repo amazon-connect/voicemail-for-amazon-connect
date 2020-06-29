@@ -25,9 +25,9 @@ Description: (SO0094) - Solution - Master Template - This template creates all t
 
 Parameters:
     AmazonConnectInstanceId:
-      Default: ""
       Type: String
       Description: Your Amazon Connect Instance Id
+      AllowedPattern: ^([0-9a-f]){8}-([0-9a-f]){4}-([0-9a-f]){4}-([0-9a-f]){4}-([0-9a-f]){12}$
     AvailableSMSCountries:
       Default: "us,ca"
       Type: String
