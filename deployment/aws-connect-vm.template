@@ -21,7 +21,7 @@
         },
         "Runtime": "nodejs10.x",
         "Timeout": 30,
-        "Description": "AWS Lambda Function that will be triggered when records are written into the ContactVoicemail Table.\n",
+        "Description": "AWS Lambda Function that will be triggered when records are written into the ContactVoicemail Table.",
         "Environment": {
           "Variables": {
             "USERS_TABLE_NAME": {
@@ -71,7 +71,7 @@
         },
         "Runtime": "nodejs10.x",
         "Timeout": 30,
-        "Description": "AWS Lambda Function that will be triggered when transcription status changes.\n",
+        "Description": "AWS Lambda Function that will be triggered when transcription status changes.",
         "Environment": {
           "Variables": {
             "USERS_TABLE_NAME": {
@@ -118,7 +118,7 @@
         },
         "Runtime": "nodejs10.x",
         "Timeout": 30,
-        "Description": "AWS Lambda Function that will be triggered when dialog flow needs to get agent's information based on phone extension\n",
+        "Description": "AWS Lambda Function that will be triggered when dialog flow needs to get agent's information based on phone extension.",
         "Environment": {
           "Variables": {
             "USERS_TABLE_NAME": {
@@ -446,7 +446,7 @@
         },
         "Runtime": "java8",
         "Timeout": 900,
-        "Description": "Process recording via CTR\n",
+        "Description": "Process recording via CTR",
         "Environment": {
           "Variables": {
             "START_SELECTOR_TYPE": "FRAGMENT_NUMBER",
@@ -1890,7 +1890,7 @@
     },
     "AmazonConnectGetAgentLambdaRights": {
       "Type": "AWS::Lambda::Permission",
-      "Description": "Allows amazon connect to invoke the GetAgentByExtension lambda\n",
+      "Description": "Allows amazon connect to invoke the GetAgentByExtension lambda",
       "Properties": {
         "FunctionName": {
           "Ref": "GetAgentByExtensionLambdaFunction"
