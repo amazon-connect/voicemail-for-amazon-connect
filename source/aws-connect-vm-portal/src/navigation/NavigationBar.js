@@ -141,11 +141,11 @@ const mapStateToProps = (state) => {
     }
 
     let roles = state.auth.user["roles"];
-    if (roles.includes(AuthRoles.MANAGER)) {
+    if (roles && roles.includes(AuthRoles.MANAGER)) {
         role = "Manager";
     }
 
-    if (roles.includes(AuthRoles.ADMIN)) {
+    if (roles && roles.includes(AuthRoles.ADMIN)) {
         role = "Administrator"
     }
 

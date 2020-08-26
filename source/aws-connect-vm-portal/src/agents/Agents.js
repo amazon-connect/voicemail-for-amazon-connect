@@ -25,6 +25,8 @@ import AgentSettings from "./AgentSettings";
 import {ContactFlowAction} from "../store/actions/contact-flow.actions";
 import ContactFlow from "../contact-flow/ContactFlow";
 import requiresAuth from "../common/requiresAuth";
+import AgentsNoAuth from './AgentsNoAuth';
+import AuthRoles from "../auth/AuthRoles";
 
 const styles = (theme) => ({
     agentsTable: {
@@ -54,6 +56,15 @@ class Agents extends Component {
 
     render() {
         let classes = this.props.classes;
+        if (this.props.role === "") {
+            return (
+                <div>
+                    <NavigationBar/>
+                    <p> The user you logged in with is not in the "Manager" Cognito User Pool group. You must be a member of this group to view this page.</p>
+                </div>
+            )
+        }
+
         return (
             <div>
                 <NavigationBar/>
@@ -114,6 +125,19 @@ Agents.propTypes = {
 };
 
 const mapStateToProps = (state) => {
+    let role = "";
+    if (state.auth.user) {
+
+        let roles = state.auth.user["roles"];
+        if (roles && roles.includes(AuthRoles.MANAGER)) {
+            role = "Manager";
+        }
+
+        if (roles && roles.includes(AuthRoles.ADMIN)) {
+            role = "Administrator"
+        }
+    }
+
     return {
         showGlobalSettingsModal: state.globalSettings.showModal,
         agents: state.agents.agents,
@@ -122,7 +146,8 @@ const mapStateToProps = (state) => {
         showAgentSettings: state.agents.showAgentSettings,
         agent: state.agents.agent,
         showContactFlowModal: state.contactFlow.showModal,
-        contactFlowDownloading: state.contactFlow.downloading
+        contactFlowDownloading: state.contactFlow.downloading,
+        role: role
     }
 };
 
@@ -138,4 +163,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(requiresAuth(Agents)));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(requiresAuth(Agents, AgentsNoAuth)));

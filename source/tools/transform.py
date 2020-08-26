@@ -56,6 +56,28 @@ def transform_template(template, save_path, lambda_zip_key, lambda_jar_key):
                     "Fn::Join": ["", [{"Ref": "AWS::StackName"}, "-", "authorizer"]]
                 }
 
+            if key.endswith("LambdaFunction"):
+                if key == "KvsProcessRecordingLambdaFunction":
+                    resources[key]["Properties"]["Code"] = {
+                        "S3Bucket": {
+                                "Ref": "ServerlessDeploymentBucket"
+                        },
+                        "S3Key": lambda_jar_key,
+                        "S3ObjectVersion": {
+                                "Ref": "LambdaDeploymentJarPackageVersion"
+                        }
+                    }
+                else:
+                    resources[key]["Properties"]["Code"] = {
+                        "S3Bucket": {
+                                "Ref": "ServerlessDeploymentBucket"
+                        },
+                        "S3Key": lambda_zip_key,
+                        "S3ObjectVersion": {
+                                "Ref": "LambdaDeploymentZipPackageVersion"
+                        }
+                    }
+
             if key == "ApiGatewayApiKey1":
                 del resources[key]["Properties"]["Name"]
 
@@ -76,7 +98,8 @@ def transform_template(template, save_path, lambda_zip_key, lambda_jar_key):
                     "cfn_nag": {
                         "rules_to_suppress": [
                             { "id": "W21", "reason": "NotResource needed to send SMS from SNS." },
-                            { "id": "W11", "reason": "Must allow all resources for transcribe." }
+                            { "id": "W11", "reason": "Must allow all resources for transcribe." },
+                            { "id": "W76", "reason": "IAM policy needs the verbosity." }
                         ]
                     }
                 }
@@ -91,17 +114,12 @@ def transform_template(template, save_path, lambda_zip_key, lambda_jar_key):
                 }
 
             if key.startswith("ApiGatewayDeployment"):
-                resources[key]["Properties"]["StageDescription"] = {
-                    "AccessLogSetting": {
-                        "DestinationArn": {
-                            "Fn::GetAtt": [
-                                "ApiAccessLogGroup", 
-                                "Arn"
-                            ]
-                        },
-                        "Format": '{"requestId": "$context.requestId", "caller": "$context.identity.caller", "requestTime": "$context.requestTime", "httpMethod": "$context.httpMethod", "resourcePath": "$context.resourcePath", "status": "$context.status", "responseLength": "$context.responseLength", "integrationLatency": "$context.integrationLatency"}'
-                    },
-                    "LoggingLevel": "INFO"
+                resources[key]["Metadata"] = {
+                    "cfn_nag": {
+                        "rules_to_suppress": [
+                            { "id": "W45", "reason": "Updating this field prevents stack updates." }
+                        ]
+                    }
                 }
 
             if key.endswith("Options"):
@@ -150,11 +168,25 @@ def transform_template(template, save_path, lambda_zip_key, lambda_jar_key):
         del resources["ServerlessDeploymentBucketPolicy"]
         del resources["ServerlessDeploymentBucket"]
 
+
         data["Parameters"]["ServerlessDeploymentBucket"] = {
             "Type": "String",
             "Default": "",
             "Description": "The bucket to which the lambda zips are deployed to"
         }
+
+        data["Parameters"]["LambdaDeploymentJarPackageVersion"] = {
+            "Type": "String",
+            "Default": "",
+            "Description": "S3 Object Version of the Lambda Deployment Jar Package"
+        }
+
+        data["Parameters"]["LambdaDeploymentZipPackageVersion"] = {
+            "Type": "String",
+            "Default": "",
+            "Description": "S3 Object Version of the Lambda Deployment Zip Package"
+        }
+
         with open(save_path, 'w') as outfile:
             json.dump(data, outfile, indent=2, sort_keys=False)
 

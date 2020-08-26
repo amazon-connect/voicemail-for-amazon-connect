@@ -9,7 +9,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/voicemail.stream",
         "MemorySize": 1024,
@@ -44,6 +47,9 @@
             },
             "AVAILABLE_SMS_COUNTRIES": {
               "Ref": "AvailableSMSCountries"
+            },
+            "SECRET_ARN": {
+              "Ref": "VoicemailSecret"
             }
           }
         }
@@ -59,7 +65,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/transcription.process",
         "MemorySize": 1024,
@@ -106,7 +115,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/agents.getAgentByExtension",
         "MemorySize": 1024,
@@ -141,7 +153,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/cognito.usersConfig",
         "MemorySize": 1024,
@@ -184,7 +199,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/authorizer.handler",
         "MemorySize": 1024,
@@ -218,7 +236,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/agents.getAgents",
         "MemorySize": 1024,
@@ -252,7 +273,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/agents.updateAgentById",
         "MemorySize": 1024,
@@ -286,7 +310,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/agents.getAgentById",
         "MemorySize": 1024,
@@ -320,7 +347,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/global-settings.update",
         "MemorySize": 1024,
@@ -357,7 +387,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/global-settings.get",
         "MemorySize": 1024,
@@ -394,7 +427,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/contact-flow.build",
         "MemorySize": 1024,
@@ -419,6 +455,9 @@
             },
             "UUID": {
               "Ref": "Uuid"
+            },
+            "SEND_ANON_DATA": {
+              "Ref": "SendAnonymousData"
             }
           }
         }
@@ -434,7 +473,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm-java.jar"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm-java.jar",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentJarPackageVersion"
+          }
         },
         "Handler": "com.amazonaws.kvstream.KVSProcessRecordingLambda::handleRequest",
         "MemorySize": 1024,
@@ -471,6 +513,9 @@
             },
             "UUID": {
               "Ref": "Uuid"
+            },
+            "SEND_ANON_DATA": {
+              "Ref": "SendAnonymousData"
             }
           }
         }
@@ -486,7 +531,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/sync-vm-connect.syncRequestHandler",
         "MemorySize": 1024,
@@ -511,6 +559,9 @@
             },
             "UUID": {
               "Ref": "Uuid"
+            },
+            "SEND_ANON_DATA": {
+              "Ref": "SendAnonymousData"
             }
           }
         }
@@ -526,7 +577,10 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip"
+          "S3Key": "aws-connect-vm-serverless/aws-connect-vm.zip",
+          "S3ObjectVersion": {
+            "Ref": "LambdaDeploymentZipPackageVersion"
+          }
         },
         "Handler": "handler/sync-vm-connect.syncHandler",
         "MemorySize": 1024,
@@ -551,6 +605,9 @@
             },
             "UUID": {
               "Ref": "Uuid"
+            },
+            "SEND_ANON_DATA": {
+              "Ref": "SendAnonymousData"
             }
           }
         }
@@ -744,7 +801,7 @@
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'"
               },
               "ResponseTemplates": {
-                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".*\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
               }
             }
           ]
@@ -799,7 +856,7 @@
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST'"
               },
               "ResponseTemplates": {
-                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".*\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
               }
             }
           ]
@@ -854,7 +911,7 @@
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST'"
               },
               "ResponseTemplates": {
-                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".*\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
               }
             }
           ]
@@ -909,7 +966,7 @@
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
               },
               "ResponseTemplates": {
-                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".*\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
               }
             }
           ]
@@ -964,7 +1021,7 @@
                 "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,POST'"
               },
               "ResponseTemplates": {
-                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".*\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
+                "application/json": "#set($origin = $input.params(\"Origin\"))\n#if($origin == \"\") #set($origin = $input.params(\"origin\")) #end\n#if($origin.matches(\".+\")) #set($context.responseOverride.header.Access-Control-Allow-Origin = $origin) #end"
               }
             }
           ]
@@ -1363,25 +1420,13 @@
         "Type": "TOKEN"
       }
     },
-    "ApiGatewayDeployment1585616630655": {
+    "ApiGatewayDeployment1596662832200": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         },
-        "StageName": "prod",
-        "StageDescription": {
-          "AccessLogSetting": {
-            "DestinationArn": {
-              "Fn::GetAtt": [
-                "ApiAccessLogGroup",
-                "Arn"
-              ]
-            },
-            "Format": "{\"requestId\": \"$context.requestId\", \"caller\": \"$context.identity.caller\", \"requestTime\": \"$context.requestTime\", \"httpMethod\": \"$context.httpMethod\", \"resourcePath\": \"$context.resourcePath\", \"status\": \"$context.status\", \"responseLength\": \"$context.responseLength\", \"integrationLatency\": \"$context.integrationLatency\"}"
-          },
-          "LoggingLevel": "INFO"
-        }
+        "StageName": "prod"
       },
       "DependsOn": [
         "ApiGatewayMethodAgentsOptions",
@@ -1396,7 +1441,17 @@
         "ApiGatewayMethodGlobalSettingsGet",
         "ApiGatewayMethodContactFlowPost",
         "ApiGatewayMethodAgentsSyncPost"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W45",
+              "reason": "Updating this field prevents stack updates."
+            }
+          ]
+        }
+      }
     },
     "ApiGatewayApiKey1": {
       "Type": "AWS::ApiGateway::ApiKey",
@@ -1411,11 +1466,11 @@
           }
         ]
       },
-      "DependsOn": "ApiGatewayDeployment1585616630655"
+      "DependsOn": "ApiGatewayDeployment1596662832200"
     },
     "ApiGatewayUsagePlan": {
       "Type": "AWS::ApiGateway::UsagePlan",
-      "DependsOn": "ApiGatewayDeployment1585616630655",
+      "DependsOn": "ApiGatewayDeployment1596662832200",
       "Properties": {
         "ApiStages": [
           {
@@ -1758,7 +1813,7 @@
           ]
         },
         "StartingPosition": "TRIM_HORIZON",
-        "Enabled": "True"
+        "Enabled": true
       }
     },
     "KvsProcessRecordingEventSourceMappingKinesisDataStream": {
@@ -1779,7 +1834,7 @@
           ]
         },
         "StartingPosition": "TRIM_HORIZON",
-        "Enabled": "True",
+        "Enabled": true,
         "MaximumBatchingWindowInSeconds": 1
       }
     },
@@ -1848,6 +1903,9 @@
           {
             "AttributeDataType": "String",
             "Name": "email",
+            "Mutable": {
+              "Ref": "IsSamlInstance"
+            },
             "Required": true
           }
         ],
@@ -1911,7 +1969,7 @@
             "Arn"
           ]
         },
-        "UUID": "a7330f7a-70a9-4ccf-b187-cef136c969d1",
+        "UUID": "dee878bf-880a-400d-ae3d-04b06856d121",
         "AdminEmail": {
           "Ref": "AdminEmail"
         },
@@ -1968,6 +2026,9 @@
         ],
         "PointInTimeRecoverySpecification": {
           "PointInTimeRecoveryEnabled": true
+        },
+        "SSESpecification": {
+          "SSEEnabled": true
         }
       }
     },
@@ -1989,6 +2050,9 @@
         "BillingMode": "PAY_PER_REQUEST",
         "PointInTimeRecoverySpecification": {
           "PointInTimeRecoveryEnabled": true
+        },
+        "SSESpecification": {
+          "SSEEnabled": true
         }
       }
     },
@@ -2145,6 +2209,9 @@
       }
     },
     "ContactVoicemailStreamIamRole": {
+      "DependsOn": [
+        "VoicemailSecret"
+      ],
       "Type": "AWS::IAM::Role",
       "Properties": {
         "Path": "/",
@@ -2276,6 +2343,15 @@
                       ]
                     ]
                   }
+                },
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "secretsmanager:GetSecretValue"
+                  ],
+                  "Resource": {
+                    "Ref": "VoicemailSecret"
+                  }
                 }
               ]
             }
@@ -2292,6 +2368,10 @@
             {
               "id": "W11",
               "reason": "Must allow all resources for transcribe."
+            },
+            {
+              "id": "W76",
+              "reason": "IAM policy needs the verbosity."
             }
           ]
         }
@@ -3207,6 +3287,108 @@
         ]
       }
     },
+    "VoicemailIamUser": {
+      "DependsOn": [
+        "VoicemailIamUserGroup"
+      ],
+      "Type": "AWS::IAM::User",
+      "Properties": {
+        "Groups": [
+          {
+            "Ref": "VoicemailIamUserGroup"
+          }
+        ]
+      }
+    },
+    "VoicemailIamUserGroup": {
+      "Type": "AWS::IAM::Group",
+      "Properties": {
+        "Policies": [
+          {
+            "PolicyName": "VoicemailIamPolicy",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "s3:GetObject",
+                    "s3:GetSignedUrl"
+                  ],
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        {
+                          "Fn::GetAtt": [
+                            "AudioRecordingsBucket",
+                            "Arn"
+                          ]
+                        },
+                        "/*"
+                      ]
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "VoicemailIamUserAccessKey": {
+      "DependsOn": [
+        "VoicemailIamUser"
+      ],
+      "Type": "AWS::IAM::AccessKey",
+      "Properties": {
+        "UserName": {
+          "Ref": "VoicemailIamUser"
+        }
+      }
+    },
+    "VoicemailSecret": {
+      "DependsOn": [
+        "VoicemailIamUser",
+        "VoicemailIamUserAccessKey"
+      ],
+      "Type": "AWS::SecretsManager::Secret",
+      "Properties": {
+        "Description": "IAM Access Key Secret",
+        "SecretString": {
+          "Fn::Join": [
+            "",
+            [
+              "{\"accessKeyId\":",
+              "\"",
+              {
+                "Ref": "VoicemailIamUserAccessKey"
+              },
+              "\"",
+              ",\"secretAccessKey\":",
+              "\"",
+              {
+                "Fn::GetAtt": [
+                  "VoicemailIamUserAccessKey",
+                  "SecretAccessKey"
+                ]
+              },
+              "\"}"
+            ]
+          ]
+        }
+      },
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W77",
+              "reason": "Uses the account's default AWS managed CMK for Secrets Manager\u00b7"
+            }
+          ]
+        }
+      }
+    },
     "AudioRecordingsBucketReadPolicy": {
       "Type": "AWS::S3::BucketPolicy",
       "Properties": {
@@ -3367,10 +3549,32 @@
       "Default": "VoicemailAccessLogBucket",
       "Type": "String"
     },
+    "SendAnonymousData": {
+      "Default": "",
+      "Type": "String"
+    },
+    "IsSamlInstance": {
+      "Default": false,
+      "Type": "String",
+      "AllowedValues": [
+        true,
+        false
+      ]
+    },
     "ServerlessDeploymentBucket": {
       "Type": "String",
       "Default": "",
       "Description": "The bucket to which the lambda zips are deployed to"
+    },
+    "LambdaDeploymentJarPackageVersion": {
+      "Type": "String",
+      "Default": "",
+      "Description": "S3 Object Version of the Lambda Deployment Jar Package"
+    },
+    "LambdaDeploymentZipPackageVersion": {
+      "Type": "String",
+      "Default": "",
+      "Description": "S3 Object Version of the Lambda Deployment Zip Package"
     }
   }
 }

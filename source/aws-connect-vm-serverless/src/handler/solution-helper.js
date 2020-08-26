@@ -30,6 +30,7 @@ const _downloadLocation = '/tmp/web-site-manifest.json';
 exports.handler = (event, context, callback) => {
     let responseStatus = 'FAILED';
     let responseData = {};
+    console.log("Request type: " + event.RequestType);
 
     if (event.RequestType === 'Create') {
         if (event.ResourceProperties.customAction === 'createUuid') {
@@ -58,6 +59,21 @@ exports.handler = (event, context, callback) => {
     } else if (event.RequestType === 'Delete') {
         responseStatus = 'SUCCESS';
         sendResponse(event, callback, context.logStreamName, responseStatus, responseData);
+    } else if (event.ResourceProperties.customAction === 'copyWebAssets') {
+        copyWebAssets(event.ResourceProperties,
+            function(err, data) {
+            if (err) {
+                responseData = {
+                    Error: 'Copy of website assets failed'
+                };
+                console.log([responseData.Error, ':\n', err].join(''));
+            } else {
+                responseStatus = 'SUCCESS';
+                responseData = {};
+            }
+
+            sendResponse(event, callback, context.logStreamName, responseStatus, responseData);
+        });
     }
 };
 

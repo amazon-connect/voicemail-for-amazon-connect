@@ -5,6 +5,7 @@ com/amazonaws/awsconnect/model/KVStreamRecordingData.class
 com/amazonaws/audio/AudioStreamService.class
 com/amazonaws/transcribe/TranscribeService.class
 com/amazonaws/awsconnect/model/CustomerEndpoint.class
+com/amazonaws/kvstream/KVSUtils$TrackName.class
 com/amazonaws/audio/AudioUtils.class
 com/amazonaws/helper/ParameterStringBuilder.class
 com/amazonaws/awsconnect/model/ContactTraceRecord.class

@@ -19,17 +19,17 @@ const replace = require('replace-in-file');
 
 
 // Fill these values out with the output in CloudWatch logs
-const baseApi = "https://4ffsse334.execute-api.eu-central-1.amazonaws.com/prod";
-const apiKey = "oo39gknuha";
-const cognitoDomain = "vm-fra.auth.eu-central-1.amazoncognito.com";
-const userPoolId = "eu-central-1_kgPsdewsla";
-const clientId = "6muahbb78r4akhc0u6konsfp0g";
-const redirDomain = "https://d7amv0jjdtsdj.cloudfront.net/login";
+const baseApi = "https://vvvvvvvv.execute-api.us-west-2.amazonaws.com/prod";
+const apiKey = "7777777";
+const cognitoDomain = "vm-some-domain.auth.us-west-2.amazoncognito.com";
+const userPoolId = "us-west-2_llllllll";
+const clientId = "aaaaaaaaaaaaa";
+const redirDomain = "https://dddddddddd.cloudfront.net/login";
 
 
 function modifyBuildFiles(base_api, api_key, cognito_domain, user_pool_id, client_id, redir_domain) {
   const apigateway = new AWS.APIGateway({
-    region: 'eu-central-1'
+    region: 'us-west-2'
   });
 
   let agwPromise = new Promise((resolve, reject) => {

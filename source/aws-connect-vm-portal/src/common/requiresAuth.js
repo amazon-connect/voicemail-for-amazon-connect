@@ -14,11 +14,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import history from "../history";
-import AuthRoles from "../auth/AuthRoles";
 import {Auth} from "aws-amplify";
 import {AuthAction} from "../store/actions/auth.actions";
 
-export default function (ComposedComponent, protectedBy=AuthRoles.MANAGER) {
+export default function (ComposedComponent, UnauthedComponent) {
     class Authenticate extends React.Component {
         constructor(props) {
             super(props);
@@ -38,11 +37,9 @@ export default function (ComposedComponent, protectedBy=AuthRoles.MANAGER) {
         _checkAndRedirect() {
             if (this.state.authState === "loading") {
                 Auth.currentAuthenticatedUser().then(user => {
-                    // console.log(user);
                     this.props.auth(user);
                     this.setState({authState: 'valid'});
                 }).catch(e => {
-                    // console.log("fail");
                     this.setState({authState: 'invalid'});
                     this.props.redirect();
                 });
@@ -50,15 +47,8 @@ export default function (ComposedComponent, protectedBy=AuthRoles.MANAGER) {
         }
 
         render() {
-            return this.state.authState === 'valid' ? <ComposedComponent {...this.props} /> : <div />;
-        }
-
-        hasRole(protectedBy) {
-            if (this.props.auth.user.roles) {
-                return this.props.auth.user.roles.includes(protectedBy)
-            } else {
-                return false
-            }
+            return this.state.authState === 'valid' ?
+                <ComposedComponent {...this.props} /> : <UnauthedComponent {...this.props}/>;
         }
     }
 

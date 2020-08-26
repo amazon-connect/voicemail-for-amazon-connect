@@ -66,6 +66,7 @@ functions:
       SIGNED_RECORDING_URL_EXP: !Ref SignedRecordingUrlExpiration
       DELIVERY_EMAIL: !Ref DeliveryEmail
       AVAILABLE_SMS_COUNTRIES: !Ref AvailableSMSCountries
+      SECRET_ARN: !Ref VoicemailSecret
 
   TranscriptionEvents:
     handler: handler/transcription.process
@@ -198,6 +199,7 @@ functions:
       AMAZON_CONNECT_INSTANCE_ARN: !Ref AmazonConnectInstanceArn
       SOLUTION_ID: !Ref SolutionId
       UUID: !Ref Uuid
+      SEND_ANON_DATA: !Ref SendAnonymousData
 
   KvsProcessRecording:
     handler: 'com.amazonaws.kvstream.KVSProcessRecordingLambda::handleRequest'
@@ -226,6 +228,7 @@ functions:
       CONTACT_VOICEMAIL_TABLE_NAME: !Ref ContactVoicemailTable
       SOLUTION_ID: !Ref SolutionId
       UUID: !Ref Uuid
+      SEND_ANON_DATA: !Ref SendAnonymousData
 
   ConnectSyncRequest:
     handler: handler/sync-vm-connect.syncRequestHandler
@@ -242,6 +245,7 @@ functions:
       AMAZON_CONNECT_INSTANCE_ARN: !Ref AmazonConnectInstanceArn
       SOLUTION_ID: !Ref SolutionId
       UUID: !Ref Uuid
+      SEND_ANON_DATA: !Ref SendAnonymousData
 
   ConnectSync:
     handler: handler/sync-vm-connect.syncHandler
@@ -254,6 +258,7 @@ functions:
       AMAZON_CONNECT_INSTANCE_ARN: !Ref AmazonConnectInstanceArn
       SOLUTION_ID: !Ref SolutionId
       UUID: !Ref Uuid
+      SEND_ANON_DATA: !Ref SendAnonymousData
 
 resources:
   Description: Amazon Connect Voicemail Stack
@@ -314,6 +319,13 @@ resources:
     VoicemailAccessLogBucket:
       Default: "VoicemailAccessLogBucket"
       Type: String
+    SendAnonymousData:
+      Default: ${self:customer.config.SEND_ANON_DATA, ""}
+      Type: String
+    IsSamlInstance:
+      Default: false
+      Type: String
+      AllowedValues: [true, false]
 
   Resources:
 
@@ -329,6 +341,7 @@ resources:
             Name: roles
           - AttributeDataType: String
             Name: email
+            Mutable: !Ref IsSamlInstance
             Required: true
         AdminCreateUserConfig:
           AllowAdminCreateUserOnly: true
@@ -400,6 +413,8 @@ resources:
               ProjectionType: ALL
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: True
+        SSESpecification:
+          SSEEnabled: True
     GlobalTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -412,6 +427,8 @@ resources:
         BillingMode: PAY_PER_REQUEST
         PointInTimeRecoverySpecification:
           PointInTimeRecoveryEnabled: True
+        SSESpecification:
+          SSEEnabled: True
     ContactVoicemailTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -510,6 +527,8 @@ resources:
 
   # IAM Permissions
     ContactVoicemailStreamIamRole:
+      DependsOn:
+        - VoicemailSecret
       Type: AWS::IAM::Role
       Properties:
         Path: /
@@ -576,6 +595,11 @@ resources:
                       - ''
                       - - !GetAtt AudioRecordingsBucket.Arn
                         - '/*'
+                - Effect: Allow
+                  Action:
+                    - secretsmanager:GetSecretValue
+                  Resource: !Ref VoicemailSecret
+
 
     TranscriptionEventsIamRole:
       Type: AWS::IAM::Role
@@ -1048,6 +1072,63 @@ resources:
                   Action:
                     - connect:ListUsers
                   Resource: !Ref AmazonConnectInstanceArn
+
+    VoicemailIamUser:
+      DependsOn:
+        - VoicemailIamUserGroup
+      Type: AWS::IAM::User
+      Properties:
+        Groups: 
+         - !Ref VoicemailIamUserGroup
+
+    VoicemailIamUserGroup:
+      Type: AWS::IAM::Group
+      Properties: 
+        Policies:
+          - PolicyName: VoicemailIamPolicy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - s3:GetObject
+                    - s3:GetSignedUrl
+                  Resource:
+                    Fn::Join:
+                      - ''
+                      - - !GetAtt AudioRecordingsBucket.Arn
+                        - '/*'
+
+    VoicemailIamUserAccessKey:
+      DependsOn:
+        - VoicemailIamUser
+      Type: AWS::IAM::AccessKey
+      Properties:
+        UserName: !Ref VoicemailIamUser
+
+    VoicemailSecret:
+      DependsOn:
+        - VoicemailIamUser
+        - VoicemailIamUserAccessKey
+      Type: AWS::SecretsManager::Secret
+      Properties:
+        Description: 'IAM Access Key Secret'
+        SecretString:
+          Fn::Join:
+            - ''
+            - - "{\"accessKeyId\":"
+              - "\""
+              - !Ref VoicemailIamUserAccessKey
+              - "\""
+              - ",\"secretAccessKey\":"
+              - "\""
+              - !GetAtt VoicemailIamUserAccessKey.SecretAccessKey
+              - "\"}"
+      Metadata:
+        cfn_nag:
+          rules_to_suppress:
+          - id: W77
+            reason: Uses the account's default AWS managed CMK for Secrets Manager·
 
   Outputs:
     ApiGatewayApiKey:

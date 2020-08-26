@@ -91,14 +91,14 @@ class ConnectService {
                 }
             })
             .catch(err => {
-                console.warn("list connect user failed", err);
+                console.warn("list connect user failed. Retry: " + retry, err);
                 if (retry > 5) {
                     throw err;
                 }
 
                 return delay(Math.min(Math.pow(retry, 2), this.maxBackOffTime))
                     .then(() => {
-                        this._listConnectUsers(users, nextToken, retry + 1);
+                        return this._listConnectUsers(list, nextToken, retry + 1);
                     })
             });
     }

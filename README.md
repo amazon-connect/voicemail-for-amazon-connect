@@ -1,5 +1,8 @@
 # Voicemail for Amazon Connect
-This solutions deploys the resources necessary to configure a voicemail system to use with Amazon Connect.
+This solutions deploys the resources necessary to configure a voicemail system to use with Amazon Connect. See [Solution Architecture](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/).
+
+## Version Update Note
+* Please note that we have pushed an update to the GitHub repo, however, we have not updated the implementation guide yet. If you want to deploy the most recent version, please refer to CHANGELOG.MD. Updates to the implementation guide will be released in the coming weeks. 
 
 ## Running unit tests for customization
 * Clone the repository, then make the desired code changes
@@ -61,7 +64,7 @@ Each microservice follows the structure of:
 ***
 
 
-Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
 Licensed under the Apache License Version 2.0 (the "License"). You may not use this file except in compliance with the License. A copy of the License is located at
 

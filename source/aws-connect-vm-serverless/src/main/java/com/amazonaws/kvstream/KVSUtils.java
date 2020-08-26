@@ -7,6 +7,7 @@ import com.amazonaws.kinesisvideo.parser.mkv.Frame;
 import com.amazonaws.kinesisvideo.parser.mkv.MkvDataElement;
 import com.amazonaws.kinesisvideo.parser.mkv.MkvElement;
 import com.amazonaws.kinesisvideo.parser.mkv.MkvElementVisitException;
+import com.amazonaws.kinesisvideo.parser.utilities.MkvTrackMetadata;
 import com.amazonaws.kinesisvideo.parser.mkv.MkvStartMasterElement;
 import com.amazonaws.kinesisvideo.parser.mkv.MkvValue;
 import com.amazonaws.kinesisvideo.parser.mkv.StreamingMkvReader;
@@ -53,6 +54,20 @@ import static com.amazonaws.util.StringUtils.isNullOrEmpty;
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 public final class KVSUtils {
+    public enum TrackName {
+        AUDIO_FROM_CUSTOMER("AUDIO_FROM_CUSTOMER"),
+        AUDIO_TO_CUSTOMER("AUDIO_TO_CUSTOMER");
+
+        private String name;
+
+        TrackName(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(KVSUtils.class);
 
@@ -111,7 +126,11 @@ public final class KVSUtils {
                     MkvDataElement dataElement = (MkvDataElement) mkvElement;
                     Frame frame = ((MkvValue<Frame>) dataElement.getValueCopy()).getVal();
                     ByteBuffer audioBuffer = frame.getFrameData();
-                    return audioBuffer;
+                    long trackNumber = frame.getTrackNumber();
+                    MkvTrackMetadata metadata = fragmentVisitor.getMkvTrackMetadata(trackNumber);
+                    if (TrackName.AUDIO_FROM_CUSTOMER.getName().equals(metadata.getTrackName())) {
+                        return audioBuffer;
+                    }
                 }
             }
         }

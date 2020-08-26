@@ -125,6 +125,12 @@ Resources:
           MinTTL: 60
           TargetOriginId: s3origin
           ViewerProtocolPolicy: 'redirect-to-https'
+    Metadata:
+        cfn_nag:
+          rules_to_suppress:
+          - id: W70
+            reason: We are not using an alias so we cannot set TLS to 1.2
+          
   CopyObjects:
     DependsOn:
       - CleanUpS3Bucket

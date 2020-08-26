@@ -32,9 +32,13 @@ exports.build = async(event, context) => {
 };
 
 function sendMetrics(status, details) {
+    if (process.env.SEND_ANON_DATA != "true") {
+        return;
+    }
+
     Metrics.sendAnonymousData({
       uuid: process.env.UUID,
-      process: 'sync',
+      process: 'build-contact-flow',
       status: status,
       details: details || ''
     }).catch(e => console.log(`sendAnonymous: ${e.message}`));

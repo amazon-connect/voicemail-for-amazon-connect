@@ -144,7 +144,19 @@ Resources:
             Version: '2012-10-17'
           PolicyName: Empty-bucket
     Type: AWS::IAM::Role
-Outputs:
+Outputs: 
+  LambdaDeploymentJarPackageId: 
+    Description: S3 Object Version of the Lambda Deployment Package
+    Value: 
+      Fn::GetAtt: 
+        - CopyObjects
+        - JarVersionId
+  LambdaDeploymentZipPackageId: 
+    Description: S3 Object Version of the Lambda Deployment Package
+    Value: 
+      Fn::GetAtt: 
+        - CopyObjects
+        - ZipVersionId
   LambdaArtifactsBucket:
     Description: S3 Bucket for the Lambda Function Code
     Value:

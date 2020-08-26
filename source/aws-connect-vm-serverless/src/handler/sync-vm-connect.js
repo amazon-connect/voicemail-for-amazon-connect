@@ -48,6 +48,10 @@ exports.syncRequestHandler = (event, context) => {
 };
 
 function sendMetrics(status, details) {
+  if (process.env.SEND_ANON_DATA != "true") {
+    return;
+  }
+
   Metrics.sendAnonymousData({
     uuid: process.env.UUID,
     process: 'sync',
