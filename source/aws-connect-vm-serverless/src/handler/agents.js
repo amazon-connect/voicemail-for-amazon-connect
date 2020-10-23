@@ -38,6 +38,28 @@ exports.getAgentByExtension = async (event, context) => {
 
 };
 
+exports.getAgentByIdInWorkflow = async (event, context) => {
+    const agentArn = event.Details.Parameters.agentArn;
+    console.log(`Getting agent details for agent ARN:  ${agentArn}`);
+    const agentId = agentArn.substring(agentArn.lastIndexOf('/') + 1);
+    console.log(`Using agent ID for lookup:  ${agentId}`);
+    const connectAgent = await agentService.getConnectAgentByUserId(agentId);
+
+    try {
+        return {
+            extension: connectAgent.agent.extension,
+            agentName: connectAgent.connectUser.getFullName(),
+            transcribeVoicemail: connectAgent.agent.transcribeVoicemail ? "true" : "false",
+            encryptVoicemail: connectAgent.agent.encryptVoicemail ? "true" : "false",
+            saveCallRecording: "true",
+            transferMessage: `Please wait while we transfer you to ${connectAgent.connectUser.getFullName()}`
+        };
+    } catch (err) {
+        console.log("Error getting the agent by ID for workflow. Error: ", JSON.stringify(err, null, 2));
+    }
+
+};
+
 exports.getAgents = async (event, context) => {
     const query = event.queryStringParameters || {};
     return agentService.getConnectAgents(query.next, query.size)

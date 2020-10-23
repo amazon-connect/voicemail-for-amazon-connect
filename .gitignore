@@ -1,0 +1,19 @@
+# === Rule for dotfiles ===
+# Ignore all dotfiles.
+.*
+# Exclude specific dotfiles that we want to track.
+!.gitignore
+
+# Node assets
+**/package-lock.json
+**/node_modules
+
+# App specific folders
+deployment/global-s3-assets
+deployment/regional-s3-assets
+deployment/*.yaml
+source/.dist
+source/aws-connect-vm-portal/build
+source/aws-connect-vm-serverless/handler
+source/aws-connect-vm-serverless/target
+source/aws-connect-vm-serverless/.serverless
