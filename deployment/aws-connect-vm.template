@@ -146,7 +146,7 @@
         "GetAgentByExtensionIamRole"
       ]
     },
-    "AgentsGetByIdInWorkflowLambdaFunction": {
+    "GetAgentByIdInWorkflowLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
