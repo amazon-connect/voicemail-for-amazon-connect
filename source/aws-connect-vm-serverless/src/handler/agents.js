@@ -39,7 +39,7 @@ exports.getAgentByExtension = async (event, context) => {
 };
 
 exports.getAgentByIdInWorkflow = async (event, context) => {
-    const agentArn = event.Details.Parameters.agentArn;
+    const agentArn = event.Details.Parameters.AgentArn;
     console.log(`Getting agent details for agent ARN:  ${agentArn}`);
     const agentId = agentArn.substring(agentArn.lastIndexOf('/') + 1);
     console.log(`Using agent ID for lookup:  ${agentId}`);
