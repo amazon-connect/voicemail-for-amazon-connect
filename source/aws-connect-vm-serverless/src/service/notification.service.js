@@ -53,7 +53,7 @@ class NotificationService {
         let deliveryOptions = connectAgent.agent.deliveryOptions;
         let shouldSendEmail = deliveryOptions.email;
         let shouldSendSMS = deliveryOptions.sms.enabled;
-        let contactEmail = connectAgent.connectUser.email || connectAgent.connectUser.username; // For SSO instances
+        let contactEmail = connectAgent.agent.email || connectAgent.connectUser.email || connectAgent.connectUser.username; // For SSO instances
         let agentSMSPhoneNumber = deliveryOptions.sms.phoneNumber;
         let deliveryEmail = globalSettings.deliveryEmail;
 

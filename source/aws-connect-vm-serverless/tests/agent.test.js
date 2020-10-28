@@ -16,7 +16,8 @@ test('Get Agent By Extension', async () => {
     const agentResponse = new Agent({
         "userId": "userId",
         "extension": extension,
-        "username": "username"
+        "username": "username",
+        "email": "email"
     });
     const connectUserResponse = new ConnectUser({
         "Id": userId,
@@ -63,7 +64,8 @@ test('Get Agent By Id', async () => {
     const agentResponse = new Agent({
         "userId": userId,
         "extension": "1234",
-        "username": "username"
+        "username": "username",
+        "email": "email"
     });
     
     const mockGetConnectUser = jest.fn();
@@ -98,7 +100,8 @@ test('Sync Connect Agents - No Update Needed', async () => {
     const ddbUsersResponse = [{
         "userId": userId,
         "extension": "1234",
-        "username": "username"
+        "username": "username",
+        "email": "email"
     }];
     const connectUsersResponse = [{
         "Id": userId,
@@ -162,7 +165,8 @@ test('Update Agent By Id', async () => {
         "deliverSMS": "deliverSMS",
         "deliverEmail": "deliverEmail",
         "transcribeVoicemail": true,
-        "encryptVoicemail": true
+        "encryptVoicemail": true,
+        "email": "email"
     };
     const connectUserResponse = new ConnectUser({
         "Id": userId,
@@ -204,7 +208,8 @@ test('Update Agent By Id - Create Agent', async () => {
         "deliverSMS": "deliverSMS",
         "deliverEmail": "deliverEmail",
         "transcribeVoicemail": true,
-        "encryptVoicemail": true
+        "encryptVoicemail": true,
+        "email": "email"
     };
     const connectUserResponse = new ConnectUser({
         "Id": userId,
@@ -221,7 +226,8 @@ test('Update Agent By Id - Create Agent', async () => {
     const agentResponse = new Agent({
         "userId": userId,
         "extension": "1234",
-        "username": "username"
+        "username": "username",
+        "email": "email"
     });
 
     const mockGetById = jest.fn();
