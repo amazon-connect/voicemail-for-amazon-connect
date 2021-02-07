@@ -23,7 +23,7 @@ class ConnectService {
         this.connect = new AWS.Connect();
 
         // max backoff time set to 30 sec
-        this.maxBackOffTime = 30;
+        this.maxBackOffTime = 45;
     }
 
 
@@ -73,7 +73,7 @@ class ConnectService {
     _listConnectUsers(list, nextToken, retry) {
         let params = {
             InstanceId: this.instanceId,
-            MaxResults: 100
+            MaxResults: 1000
         };
         if (nextToken) {
             params["NextToken"] = nextToken;

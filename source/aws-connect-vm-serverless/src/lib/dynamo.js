@@ -44,10 +44,22 @@ class DynamoDBService {
         return this.client.query(params).promise().then(result => result.Items || null);
     }
 
-    scan(params) {
+    scan(params, items = []) {
         params["TableName"] = this.tableName;
         return this.client.scan(params).promise().then(result => {
-            return result.Items || null
+
+            let allItems = items;
+
+            if (result.Items) {
+                allItems = items.concat(result.Items);
+            }
+            if (result.LastEvaluatedKey){
+                console.log("Rescanning with next page");
+                params.ExclusiveStartKey = result.LastEvaluatedKey;
+                return this.scan(params, allItems);
+            } else {
+                return allItems;
+            }
         });
     }
 
