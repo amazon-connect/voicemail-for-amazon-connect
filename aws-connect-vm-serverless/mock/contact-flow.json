@@ -1,0 +1,6 @@
+{
+  "event": {
+    "message": "hello"
+  },
+  "body": "{\"extension\":\"\",\"deliverSMSPhoneNumber\":\"+13109101684\",\"deliverSMS\":true,\"deliverEmail\":false,\"encryptVoicemail\":true,\"transcribeVoicemail\":true}"
+}

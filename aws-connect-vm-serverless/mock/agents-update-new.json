@@ -1,0 +1,59 @@
+{
+  "resource": "/agents/{agentId}",
+  "path": "/agents/4d5cf59d-51f4-450c-8c91-777b6c50be27",
+  "httpMethod": "POST",
+  "headers": {
+    "Authorization": "Bearer eyJraWQiOiJ3TGl6eUs2V1hBU1JCSjZDK1FoSWorU0hkSnZaXC9wUHhYR0k4a1ExZE9zVT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjYjNmZmFhNi05NmUwLTQ1OWEtODJlZC1kNmFlYjgzZDg4NzMiLCJjdXN0b206cm9sZXMiOiJhZG1pbixtYW5hZ2VyIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tXC91cy13ZXN0LTJfVGxaTFFwcE1tIiwiY29nbml0bzp1c2VybmFtZSI6ImNiM2ZmYWE2LTk2ZTAtNDU5YS04MmVkLWQ2YWViODNkODg3MyIsImdpdmVuX25hbWUiOiJKb2huIiwiYXVkIjoiNDZzdjF0Z2wydjBvcGI5NGZkaG1kOW9yY3YiLCJldmVudF9pZCI6IjVmNjA3YzdiLTMxMDMtNGJlYS1iMDU2LTNkMGZhYWJlMDhiNyIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTcxNDYwMzUyLCJleHAiOjE1NzE3NjkzNzcsImlhdCI6MTU3MTc2NTc3NywiZmFtaWx5X25hbWUiOiJEb2UiLCJlbWFpbCI6ImhkYW5nQG9uaWNhLmNvbSJ9.f43yD3DSLaAJgKun0tRn7XZw_SHxCh7nBoHLIqmE7sryf1av40nOreSzfEkIGbqYiBkeWMfkxJbrqLRA1vEuDpFEsma20bDkXJG7bcXHwH6HJTApfGcx-naDg4s_miheR0j2ZMot6vEp-XPZNNZgyIQ9NmEwxiHeRH8AMOwinXvVCcJkHWtvieL_gXxQ7dZLHG4-C3lnfRbxGD5vDD7fznJa6CsvVIxcq9-xW2yQGZTCJvhqxdm3ZDPBVpV0kPPeP_zJf62CXxYipb6DlFXd_N5u_TT3H86k-zKjGAkHUCXif11onavh2A-lVpvezU-WQia2McTidLuk_CXsBFzXAw"
+  },
+  "multiValueHeaders": {
+    "Authorization": [
+      "Bearer eyJraWQiOiJ3TGl6eUs2V1hBU1JCSjZDK1FoSWorU0hkSnZaXC9wUHhYR0k4a1ExZE9zVT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjYjNmZmFhNi05NmUwLTQ1OWEtODJlZC1kNmFlYjgzZDg4NzMiLCJjdXN0b206cm9sZXMiOiJhZG1pbixtYW5hZ2VyIiwiaXNzIjoiaHR0cHM6XC9cL2NvZ25pdG8taWRwLnVzLXdlc3QtMi5hbWF6b25hd3MuY29tXC91cy13ZXN0LTJfVGxaTFFwcE1tIiwiY29nbml0bzp1c2VybmFtZSI6ImNiM2ZmYWE2LTk2ZTAtNDU5YS04MmVkLWQ2YWViODNkODg3MyIsImdpdmVuX25hbWUiOiJKb2huIiwiYXVkIjoiNDZzdjF0Z2wydjBvcGI5NGZkaG1kOW9yY3YiLCJldmVudF9pZCI6IjVmNjA3YzdiLTMxMDMtNGJlYS1iMDU2LTNkMGZhYWJlMDhiNyIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTcxNDYwMzUyLCJleHAiOjE1NzE3NjkzNzcsImlhdCI6MTU3MTc2NTc3NywiZmFtaWx5X25hbWUiOiJEb2UiLCJlbWFpbCI6ImhkYW5nQG9uaWNhLmNvbSJ9.f43yD3DSLaAJgKun0tRn7XZw_SHxCh7nBoHLIqmE7sryf1av40nOreSzfEkIGbqYiBkeWMfkxJbrqLRA1vEuDpFEsma20bDkXJG7bcXHwH6HJTApfGcx-naDg4s_miheR0j2ZMot6vEp-XPZNNZgyIQ9NmEwxiHeRH8AMOwinXvVCcJkHWtvieL_gXxQ7dZLHG4-C3lnfRbxGD5vDD7fznJa6CsvVIxcq9-xW2yQGZTCJvhqxdm3ZDPBVpV0kPPeP_zJf62CXxYipb6DlFXd_N5u_TT3H86k-zKjGAkHUCXif11onavh2A-lVpvezU-WQia2McTidLuk_CXsBFzXAw"
+    ]
+  },
+  "queryStringParameters": null,
+  "multiValueQueryStringParameters": null,
+  "pathParameters": {
+    "agentId": "6adfe0b0-b9f2-4de6-9ec7-ede84b67cfbd"
+  },
+  "stageVariables": null,
+  "requestContext": {
+    "resourceId": "sie74o",
+    "authorizer": {
+      "reason": "Verified",
+      "roles": "admin,manager",
+      "principalId": "cb3ffaa6-96e0-459a-82ed-d6aeb83d8873",
+      "integrationLatency": 0
+    },
+    "resourcePath": "/agents/{agentId}",
+    "httpMethod": "POST",
+    "extendedRequestId": "B-cAkGBMvHcFWYw=",
+    "requestTime": "22/Oct/2019:17:46:17 +0000",
+    "path": "/hdang/agents/6adfe0b0-b9f2-4de6-9ec7-ede84b67cfbd",
+    "accountId": "439200502815",
+    "protocol": "HTTP/1.1",
+    "stage": "hdang",
+    "domainPrefix": "ef16rwgd3i",
+    "requestTimeEpoch": 1571766377936,
+    "requestId": "e68e4908-20a0-4863-8e5d-fb7fa08250de",
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "cognitoIdentityId": null,
+      "apiKey": "dIqUYJsey9acwZuN90CH35hrqwXuPx4ZawrMQsNU",
+      "principalOrgId": null,
+      "cognitoAuthenticationType": null,
+      "userArn": null,
+      "apiKeyId": "nyhspri1p0",
+      "userAgent": "Paw/3.1.9 (Macintosh; OS X/10.15.0) GCDHTTPRequest",
+      "accountId": null,
+      "caller": null,
+      "sourceIp": "172.118.130.19",
+      "accessKey": null,
+      "cognitoAuthenticationProvider": null,
+      "user": null
+    },
+    "domainName": "ef16rwgd3i.execute-api.us-west-2.amazonaws.com",
+    "apiId": "ef16rwgd3i"
+  },
+  "body": "{\"extension\":\"\",\"deliverSMSPhoneNumber\":\"+13109101684\",\"deliverSMS\":true,\"deliverEmail\":false,\"encryptVoicemail\":true,\"transcribeVoicemail\":true}",
+  "isBase64Encoded": false
+}

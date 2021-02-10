@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## development branch
+### Changed
+- Reworked the build system to only use serverless
+- Merged in the following PRs:
+  - Bump log4j core version (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/23)
+  - Remove newline character (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/27)
+  - Bump junit version (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/39)
+  - Improved error handling of many users (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/52)
+  - Use regional domain name for S3 (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/48)
+
+## master branch
 ## [1.0.2] - 2020-07-01
 You can deploy at https://solutions-reference.s3.amazonaws.com/voicemail-for-amazon-connect/v1.0.2/voicemail-for-amazon-connect.template 
 ### Changed

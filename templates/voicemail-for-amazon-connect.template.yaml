@@ -1,0 +1,333 @@
+###
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+#
+# Licensed under the Apache License Version 2.0 (the 'License').
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#         http://www.apache.org/licenses/
+#
+# or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied. See the License for the
+# specific language governing permissions and limitations under the License.
+#
+##
+ 
+# Serverless Limit Monitor Solution
+#
+# template for voicemail-for-amazon-connect
+# **DO NOT DELETE**
+#
+# author: aws-solutions-builder@
+AWSTemplateFormatVersion: 2010-09-09
+ 
+Description: (SO0094) - Solution - Master Template - This template creates all the necessary resources to enable voicemail capabilities to your Amazon Connect Instance
+ 
+Parameters:
+    AmazonConnectInstanceId:
+      Type: String
+      Description: Your Amazon Connect Instance Id (i.e. 12345678-1234-1234-1234-123456789012)
+      AllowedPattern: ^([0-9a-f]){8}-([0-9a-f]){4}-([0-9a-f]){4}-([0-9a-f]){4}-([0-9a-f]){12}$
+    AvailableSMSCountries:
+      Default: "us,ca"
+      Type: String
+      Description: List of regions delineated by commas available for SMS messages when voicemail transcripts are sent. https://docs.aws.amazon.com/sns/latest/dg/sns-supported-regions-countries.html
+    AdminEmail:
+      Default: ""
+      Type: String
+      Description: |
+        The administrator email for the Amazon Connect Voicemail Portal. Please make sure that is is a valid email.
+        An email will be sent to this address with the temporary password
+    AdminFirstName:
+      Default: Jane
+      Type: String
+    AdminLastName:
+      Default: Doe
+      Type: String
+    ManagerEmail:
+      Default: ""
+      Type: String
+      Description: |
+        The manager email for the Amazon Connect Voicemail Portal. Please make sure that this is a valid email.
+        An email will be sent to this address with the temporary password.  Managers cannot change the global voicemail
+        encryption and transcription settings
+    ManagerFirstName:
+      Default: John
+      Type: String
+    ManagerLastName:
+      Default: Doe
+      Type: String
+    DeliveryEmail:
+      Default: ""
+      Type: String
+      Description: Email used to send voicemail notifications. Make sure this email is verified by Amazon Simple Email Service
+ 
+    RecordingsUrlExpirationTime:
+      Default: 900
+      Type: String
+      Description: The amount of time the encrypted url for audio recording should be valid for before it expires (seconds).
+    IsSamlInstance:
+      Description: Set to true if you are using Saml for your Amazon Connect instance.
+      Default: false
+      Type: String
+      AllowedValues: [true, false]
+ 
+    UserPoolDomainPrefix:
+      Type: String
+      Description: Domain prefix to assign to the cognito user pool. This must be unique.
+      AllowedPattern: ^[a-z0-9](?:[a-z0-9\\-]{0,61}[a-z0-9])?$
+ 
+Metadata:
+    AWS::CloudFormation::Interface:
+      ParameterGroups:
+        - Label:
+            default: Amazon Connect Voicemail Configurations
+          Parameters:
+            - AmazonConnectInstanceId
+            - RecordingsUrlExpirationTime
+            - IsSamlInstance
+        - Label:
+            default: Voicemail Web Portal Configurations
+          Parameters:
+            - AdminEmail
+            - AdminFirstName
+            - AdminLastName
+            - ManagerEmail
+            - ManagerFirstName
+            - ManagerLastName
+            - DeliveryEmail
+            - AvailableSMSCountries
+      ParameterLabels:
+        AmazonConnectInstanceId:
+          default: Amazon Connect Instance Id
+        RecordingsUrlExpirationTime:
+          default: Recordings URL Expiration Time (seconds)
+        DeliveryEmail:
+          default: Delivery Email
+        AdminEmail:
+          default: Admin Email
+        AdminFirstName:
+          default: Admin First Name
+        AdminLastName:
+          default: Admin Last Name
+        ManagerEmail:
+          default: Manager Email
+        ManagerFirstName:
+          default: Manager First Name
+        ManagerLastName:
+          default: Manager Last Name
+        AvailableSMSCountries:
+          default: Allowable SMS Countries
+        IsSamlInstance:
+          default: Is Saml Instance
+ 
+Mappings:
+  MetricsMap:
+    Send-Data:
+      SendAnonymousData: "true" # change to 'false' if needed
+ 
+  SourceCode:
+    General:
+      SolutionId: "SO0094"
+     
+Resources:
+    CopyLambdaArtifactsStack:
+      Type: AWS::CloudFormation::Stack
+      Properties:
+        TemplateURL: !Sub
+          - https://${HostingBucketName}.s3.amazonaws.com/${HostingKeyPrefix}templates/copy-artifacts.template.yaml
+          - { HostingBucketName: __HOSTING_BUCKET__, HostingKeyPrefix: aws-connect-vm-serverless/ }
+        Parameters:
+          VoicemailAccessLogBucket: !Ref VoicemailAccessLogBucket
+          HostingKeyPrefix: aws-connect-vm-serverless/packages/
+          HostingBucketName: __HOSTING_BUCKET__
+          Nonce: "1"
+    VoicemailStack:
+      Type: AWS::CloudFormation::Stack
+      DependsOn: CopyLambdaArtifactsStack
+      Properties:
+        TemplateURL: !Sub
+          - https://${HostingBucketName}.s3.amazonaws.com/${HostingKeyPrefix}templates/aws-connect-vm.template
+          - { HostingBucketName: __HOSTING_BUCKET__, HostingKeyPrefix: aws-connect-vm-serverless/ }
+        Parameters:
+          ServerlessDeploymentBucket: !GetAtt CopyLambdaArtifactsStack.Outputs.LambdaArtifactsBucket
+          LambdaDeploymentJarPackageVersion: !GetAtt CopyLambdaArtifactsStack.Outputs.LambdaDeploymentJarPackageId
+          LambdaDeploymentZipPackageVersion: !GetAtt CopyLambdaArtifactsStack.Outputs.LambdaDeploymentZipPackageId
+          AmazonConnectInstanceArn: !Sub 'arn:aws:connect:${AWS::Region}:${AWS::AccountId}:instance/${AmazonConnectInstanceId}'
+          AvailableSMSCountries: !Ref AvailableSMSCountries
+          AdminEmail: !Ref AdminEmail
+          AdminFirstName: !Ref AdminFirstName
+          AdminLastName: !Ref AdminLastName
+          ManagerEmail: !Ref ManagerEmail
+          ManagerFirstName: !Ref ManagerFirstName
+          ManagerLastName: !Ref ManagerLastName
+          DeliveryEmail: !Ref DeliveryEmail
+          SignedRecordingUrlExpiration: !Ref RecordingsUrlExpirationTime
+          UserPoolDomainName: !Ref UserPoolDomainPrefix
+          SolutionId: !FindInMap [
+                    "SourceCode",
+                    "General",
+                    "SolutionId"
+                ]
+          Uuid: !GetAtt SolutionUuid.UUID
+          VoicemailAccessLogBucket: !Ref VoicemailAccessLogBucket
+          IsSamlInstance: !Ref IsSamlInstance
+          SendAnonymousData: !FindInMap [
+                              "MetricsMap",
+                              "Send-Data",
+                              "SendAnonymousData"
+                            ]
+    VoicemailPortalStack:
+      Type: AWS::CloudFormation::Stack
+      DependsOn: VoicemailStack
+      Properties:
+        TemplateURL: !Sub
+          - https://${HostingBucketName}.s3.amazonaws.com/${HostingKeyPrefix}templates/cloudfront.template.yaml
+          - { HostingBucketName: __HOSTING_BUCKET__, HostingKeyPrefix: aws-connect-vm-serverless/ }
+        Parameters:
+          ApiGatewayApiKey: !GetAtt VoicemailStack.Outputs.ApiGatewayApiKey
+          BaseApi: !GetAtt VoicemailStack.Outputs.ServiceEndpoint
+          HostingBucketName: __HOSTING_BUCKET__
+          HostingBucketKeyPrefix: "aws-connect-vm-portal/build/"
+          HostingKeyPrefix: "aws-connect-vm-serverless/packages/"
+          UserPoolId: !GetAtt VoicemailStack.Outputs.UserPoolId
+          CognitoDomain: !GetAtt VoicemailStack.Outputs.CognitoDomain
+          UserPoolArn: !GetAtt VoicemailStack.Outputs.UserPoolArn
+          SolutionHelperFunctionArn: !GetAtt SolutionHelperFunction.Arn
+          PortalBucket: !Ref PortalBucket
+          PortalBucketDomainName: !GetAtt PortalBucket.RegionalDomainName
+          PortalBucketArn: !GetAtt PortalBucket.Arn
+ 
+    PortalBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: True
+          BlockPublicPolicy: True
+          IgnorePublicAcls: True
+          RestrictPublicBuckets: True
+        VersioningConfiguration:
+          Status: Enabled
+        WebsiteConfiguration:
+          IndexDocument: 'index.html'
+          ErrorDocument: 'error.html'
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+        LoggingConfiguration:
+          DestinationBucketName: !Ref VoicemailAccessLogBucket
+          LogFilePrefix: "portal-bucket-logs"
+      Metadata:
+        cfn_nag:
+          rules_to_suppress:
+          - id: W51
+            reason: Bucket policy added in sub template once CloudFront Domain is created
+ 
+    AccessLogBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket: !Ref VoicemailAccessLogBucket
+        PolicyDocument:
+          Statement:
+            - Action:
+                - "s3:GetObject"
+              Effect: "Deny"
+              Resource: !Sub 'arn:aws:s3:::${VoicemailAccessLogBucket}/*'
+              Principal: "*"
+              Condition:
+                Bool:
+                  'aws:SecureTransport': 'false'
+ 
+    VoicemailAccessLogBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: "LogDeliveryWrite"
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: True
+          BlockPublicPolicy: True
+          IgnorePublicAcls: True
+          RestrictPublicBuckets: True
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+        VersioningConfiguration:
+          Status: Enabled
+      Metadata:
+        cfn_nag:
+          rules_to_suppress:
+          - id: W35
+            reason: Used to store access logs for other buckets
+ 
+    SolutionHelperRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Principal:
+              Service: lambda.amazonaws.com
+        Path: '/'
+        Policies:
+          -
+            PolicyName: voicemail-solution-helper-policy
+            PolicyDocument:
+              Version: "2012-10-17"
+              Statement:
+                -
+                  Effect: "Allow"
+                  Action:
+                    - 'logs:CreateLogGroup'
+                    - 'logs:CreateLogStream'
+                    - 'logs:PutLogEvents'
+                  Resource:
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
+                -
+                  Effect: "Allow"
+                  Action:
+                    - "s3:PutObject"
+                    - "s3:GetObject"
+                    - "s3:PutObjectAcl"
+                  Resource:
+                    - !Sub ${PortalBucket.Arn}/*
+                -
+                  Effect: "Allow"
+                  Action:
+                    - "s3:GetObject"
+                  Resource:
+                    -  !Join
+                        - ''
+                        - - 'arn:'
+                          - !Ref 'AWS::Partition'
+                          - ':s3:::'
+                          - "__HOSTING_BUCKET__"
+                          - '/*'
+                -
+                  Effect: "Allow"
+                  Action:
+                    - "apigateway:GET"
+                  Resource:
+                    - !Sub "arn:aws:apigateway:${AWS::Region}::/apikeys/*"
+ 
+    SolutionHelperFunction:
+      Type: AWS::Lambda::Function
+      Properties:
+        Code:
+          S3Bucket: "__HOSTING_BUCKET__"
+          S3Key: "aws-connect-vm-serverless/packages/aws-connect-vm.zip"
+        Description: Solution Helper Lambda Function
+        Handler: handler/solution-helper.handler
+        MemorySize: 256
+        Role: !GetAtt SolutionHelperRole.Arn
+        Runtime: nodejs10.x
+        Timeout: 300
+ 
+    SolutionUuid:
+      Type: "Custom::LoadLambda"
+      Properties:
+          ServiceToken: !GetAtt SolutionHelperFunction.Arn
+          Region: !Ref AWS::Region
+          customAction: "createUuid"

@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+stacker = "*"
+
+[requires]
+python_version = "2.7"
+
+[scripts]
+deploy_prod = "stacker build --recreate-failed --region us-east-1 ./env/prod-us-east-1.env ./stacker.yml"
+deploy_dev = "stacker build --recreate-failed --region us-west-2 ./env/prod-us-west-2.env ./stacker.yml"

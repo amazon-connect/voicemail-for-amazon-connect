@@ -1,65 +1,47 @@
 # Voicemail for Amazon Connect
-This solutions deploys the resources necessary to configure a voicemail system to use with Amazon Connect. See [Solution Architecture](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/).
+This solution deploys the resources necessary to configure a voicemail system to use with Amazon Connect. Read the [implementation guide](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/) to see the architecture and get an in depth understanding of the solution.
 
-## Version Update Note
-* Please note that we have pushed an update to the GitHub repo, however, we have not updated the implementation guide yet. If you want to deploy the most recent version, please refer to CHANGELOG.MD. Updates to the implementation guide will be released in the coming weeks. 
+**Note:**
+This GitHub repo has diverged from the AWS Solution linked above in order to facilitate an open source solution that can accept community input. The branch named "master" contains the code that backs the solution deployed from the link above. The "development" branch contains the same solution, but has a simplified build system that removes complexities introduced by the AWS Solution. If you would like to pull down this code to modify it for your own testing, you should use the "development" branch.
 
-## Running unit tests for customization
-* Clone the repository, then make the desired code changes
-* Next, run unit tests to make sure added customization passes the tests
-```
-cd ./source/aws-connect-vm-serverless
-npm run test
-```
+## Deployment Steps
+Follow the deployment steps in the [implementation guide](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/) if you want to deploy the preconfigured solution. If you want to make modifications, follow the below steps to deploy the stack, then continue to follow the solution guide for the post-CloudFormation steps.
 
-## Building distributable for customization
-* Configure the bucket name of your target Amazon S3 distribution bucket
-```
-export DIST_OUTPUT_BUCKET=my-bucket-name # bucket where customized code will reside
-export SOLUTION_NAME=my-solution-name
-export VERSION=my-version # version number for the customized code
-```
-_Note:_ You would have to create an S3 bucket with the prefix 'my-bucket-name-<aws_region>'; aws_region is where you are testing the customized solution. Also, the assets in bucket should be publicly accessible.
+### Deploying Code Locally
 
-* Now build the distributable:
-```
-chmod +x ./build-s3-dist.sh \n
-./build-s3-dist.sh $DIST_OUTPUT_BUCKET $SOLUTION_NAME $VERSION \n
-```
+#### Pre-requisites
+To deploy the code locally, you need to do the following:
 
-* Deploy the distributable to an Amazon S3 bucket in your account. _Note:_ you must have the AWS Command Line Interface installed.
+1. Install and setup the [Java Development Kit](https://www.oracle.com/java/technologies/javase-downloads.html).
+2. Install pipenv
+3. Install [Maven](http://maven.apache.org/install.html)
+4. Install the AWS CLI
+5. Create a bucket in S3 that you will upload your code to
+6. Create an IAM role that has access to put objects in the bucket and configure the AWS CLI to use that role.
+
+**Note: there is currently a bug with Node v15, so ensure that you have v14.15.4 or older installed until the bug is fixed: [https://github.com/serverless/serverless/issues/8794](https://github.com/serverless/serverless/issues/8794)**
+
+#### Steps
+
+* Create a bucket in S3 that you want to upload this code to
+* Replace the bucket and region in the code snippet below then run the following commands
 ```
-aws s3 cp ./dist/ s3://my-bucket-name-<aws_region>/$SOLUTION_NAME/$VERSION/ --recursive --acl bucket-owner-full-control --profile aws-cred-profile-name \n
+cd voicemail-for-amazon-connect
+cd aws-connect-vm-serverless
+npm install
+cd ../aws-connect-vm-portal
+npm install
+cd ..
+pipenv shell
+pipenv install
+$ sh ./build.sh build --stage prod --region ${BUCKET_REGION} --bucket ${YOUR_BUCKET}
 ```
+* Get the link of the solution main template uploaded to your Amazon S3 bucket. (It will be under aws-connect-vm-serverless/templates/voicemail-for-amazon-connect.template.yaml)
+* Deploy the solution to your account by launching a new AWS CloudFormation stack using the link of the solution template in Amazon S3. **Note: This should be in the same region as the Amazon Connect instance you want to use**
+* Follow the rest of the deployment steps from the [implementation guide](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/).
 
-* Get the link of the solution template uploaded to your Amazon S3 bucket.
-* Deploy the solution to your account by launching a new AWS CloudFormation stack using the link of the solution template in Amazon S3.
-
-*** 
-
-## File Structure
-
-```
-|-deployment/
-  |-build-s3-dist.sh             [ shell script for packaging distribution assets ]
-  |-run-unit-tests.sh            [ shell script for executing unit tests ]
-  |-solution.yaml                [ solution CloudFormation deployment template ]
-|-source/
-  |-example-function-js          [ Example microservice function in javascript ]
-    |- lib/                      [ Example function libraries ]
-  |-example-function-py          [ Example microservice function in python ]
-
-```
-
-Each microservice follows the structure of:
-
-```
-|-service-name/
-  |-lib/
-    |-[service module libraries and unit tests]
-  |-index.js [injection point for microservice]
-  |-package.json
-```
+## Solution Updates
+If you make any adjustments to this solution for your use case, we would love to pull in the changes so that others can benefit from them too. Please submit a Pull Request with details to what your changes are and we will either add them to the core solution, create a separate branch, or add it to the `solutionVariants` folder depending on the change.
 
 ***
 

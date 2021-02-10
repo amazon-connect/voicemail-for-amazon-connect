@@ -1,0 +1,37 @@
+# compiled output
+**/.dist
+**/open-source
+**/.zip
+**/tmp
+**/out-tsc
+**/Pipfile.lock
+**/*/Pipfile.lock
+
+# dependencies
+**/node_modules
+
+# e2e
+**/e2e/*.js
+**/e2e/*.map
+
+# misc
+**/npm-debug.log
+**/testem.log
+**/.vscode/settings.json
+
+# System Files
+**/.DS_Store
+**/.vscode
+
+**/aws-connect-vm-serverless/mock/*
+**/aws-connect-vm-serverless/.serverless/*
+**/aws-connect-vm-serverless/.project
+**/aws-connect-vm-serverless/.classpath
+**/aws-connect-vm-serverless/.factorypath
+**/aws-connect-vm-serverless/.settings/*
+**/aws-connect-vm-serverless/handler/*
+**/aws-connect-vm-serverless/target/*
+**/.dist/*
+**/aws-connect-vm-portal/build*
+
+**/handler/*

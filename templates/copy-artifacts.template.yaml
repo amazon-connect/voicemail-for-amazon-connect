@@ -1,0 +1,163 @@
+###
+# Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+#
+# Licensed under the Apache License Version 2.0 (the 'License').
+# You may not use this file except in compliance with the License.
+# A copy of the License is located at
+#
+#         http://www.apache.org/licenses/
+#
+# or in the 'license' file accompanying this file. This file is distributed on an 'AS IS' BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, express or implied. See the License for the
+# specific language governing permissions and limitations under the License.
+#
+##
+
+---
+AWSTemplateFormatVersion: '2010-09-09'
+Description: This template creates an S3 bucket in the same region where the stack
+  is launched and copy the Lambda functions code from original bucket to the new bucket.
+Parameters:
+  VoicemailAccessLogBucket:
+    Default: ""
+    Type: String
+  HostingBucketName:
+    Default: ""
+    Type: String
+  HostingKeyPrefix:
+    Default: ""
+    Type: String
+  Nonce:
+    Default: "1"
+    Type: String
+    Description: Change to any value re-copy source upon deployment
+
+Resources:
+  CopyObjects:
+    Properties:
+      ServiceToken: !GetAtt CopyArtifactsHelperFunction.Arn
+      customAction: 'copyObjects'
+      Nonce: !Ref Nonce
+      DestBucket: !Ref LambdaArtifactsBucket
+      Objects:
+        - aws-connect-vm.zip
+        - aws-connect-vm-java.jar
+      SourceBucket: !Ref HostingBucketName
+      Prefix: !Ref HostingKeyPrefix
+    Type: AWS::CloudFormation::CustomResource
+    DependsOn:
+      - CleanUpS3Bucket
+  LambdaArtifactsBucket:
+    Properties:
+      Tags: []
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      LoggingConfiguration:
+        DestinationBucketName: !Ref VoicemailAccessLogBucket
+        LogFilePrefix: "lambda-artifacts-bucket-logs"
+    Type: AWS::S3::Bucket
+
+  LambdaArtifactsBucketReadPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref LambdaArtifactsBucket
+      PolicyDocument:
+        Statement:
+          - Action: 's3:GetObject'
+            Effect: Allow
+            Resource: !Sub 'arn:aws:s3:::${LambdaArtifactsBucket}/*'
+            Principal:
+              AWS: !Sub '${AWS::AccountId}'
+          - Action: "s3:GetObject"
+            Effect: Deny
+            Resource: !Sub 'arn:aws:s3:::${LambdaArtifactsBucket}/*'
+            Principal: "*"
+            Condition:
+              Bool:
+                'aws:SecureTransport': 'false'
+  CleanUpS3Bucket:
+    Properties:
+      DestBucket: !Ref LambdaArtifactsBucket
+      ServiceToken: !GetAtt CopyArtifactsHelperFunction.Arn
+      customAction: 'cleanUpS3Bucket'
+    Type: AWS::CloudFormation::CustomResource
+  CopyArtifactsHelperFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: !Ref HostingBucketName
+        S3Key: !Sub "${HostingKeyPrefix}aws-connect-vm.zip"
+      Description: Copy Artifacts Helper Lambda Function
+      Handler: handler/copy-artifacts-helper.handler
+      MemorySize: 256
+      Role: !GetAtt CopyArtifactsHelperRole.Arn
+      Runtime: nodejs10.x
+      Timeout: 300
+  CopyArtifactsHelperRole:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+        Version: '2012-10-17'
+      Path: "/"
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Effect: "Allow"
+                Action:
+                  - 'logs:CreateLogGroup'
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource:
+                  - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
+              - Action:
+                  - s3:GetObject
+                  - s3:CopyObject
+                Effect: Allow
+                Resource:
+                  - Fn::Sub: arn:aws:s3:::${HostingBucketName}/${HostingKeyPrefix}*
+              - Action:
+                  - s3:PutObject
+                  - s3:DeleteObject
+                  - s3:GetObject
+                  - s3:ListBucket
+                  - s3:ListBucketVersions
+                  - s3:DeleteObjectVersion
+                  - s3:GetObjectVersion
+                  - s3:GetBucketVersioning
+                Effect: Allow
+                Resource:
+                  - Fn::Sub: arn:aws:s3:::${LambdaArtifactsBucket}/aws-connect-vm-serverless/*
+                  - Fn::Sub: arn:aws:s3:::${LambdaArtifactsBucket}
+            Version: '2012-10-17'
+          PolicyName: Empty-bucket
+    Type: AWS::IAM::Role
+Outputs: 
+  LambdaDeploymentJarPackageId: 
+    Description: S3 Object Version of the Lambda Deployment Package
+    Value: 
+      Fn::GetAtt: 
+        - CopyObjects
+        - JarVersionId
+  LambdaDeploymentZipPackageId: 
+    Description: S3 Object Version of the Lambda Deployment Package
+    Value: 
+      Fn::GetAtt: 
+        - CopyObjects
+        - ZipVersionId
+  LambdaArtifactsBucket:
+    Description: S3 Bucket for the Lambda Function Code
+    Value:
+      Ref: LambdaArtifactsBucket

@@ -1,0 +1,96 @@
+{
+  "Records": [
+    {
+      "eventID": "be59c475926db0996ab11252dc19ac9f",
+      "eventName": "MODIFY",
+      "eventVersion": "1.1",
+      "eventSource": "aws:dynamodb",
+      "awsRegion": "us-west-2",
+      "dynamodb": {
+        "ApproximateCreationDateTime": 1571777887,
+        "Keys": {
+          "contactId": {
+            "S": "406c4ea7-344f-4fb3-b705-1ba5df1dce8d"
+          },
+          "timestamp": {
+            "N": "1571777196"
+          }
+        },
+        "NewImage": {
+          "agentId": {
+            "S": "4d5cf59d-51f4-450c-8c91-777b6c50be27"
+          },
+          "shouldEncrypt": {
+            "BOOL": true
+          },
+          "recordingBucketName": {
+            "S": "aws-connect-vm-transcription-hdang"
+          },
+          "transcribeStatus": {
+            "S": "IN_PROGRESS"
+          },
+          "contactId": {
+            "S": "406c4ea7-344f-4fb3-b705-1ba5df1dce8d"
+          },
+          "recordingBucketRegion": {
+            "S": "us-west-2"
+          },
+          "recordingUrl": {
+            "S": "https://s3-us-west-2.amazonaws.com/aws-connect-vm-transcription-hdang/recordings/406c4ea7-344f-4fb3-b705-1ba5df1dce8d_1571777196.wav"
+          },
+          "contactPhoneNumber": {
+            "S": "+13104024459"
+          },
+          "shouldTranscribe": {
+            "BOOL": false
+          },
+          "recordingObjectKey": {
+            "S": "recordings/406c4ea7-344f-4fb3-b705-1ba5df1dce8d_1571777196.wav"
+          },
+          "timestamp": {
+            "N": "1571777196"
+          }
+        },
+        "OldImage": {
+          "agentId": {
+            "S": "4d5cf59d-51f4-450c-8c91-777b6c50be27"
+          },
+          "shouldEncrypt": {
+            "BOOL": true
+          },
+          "recordingBucketName": {
+            "S": "aws-connect-vm-transcription-hdang"
+          },
+          "transcribeStatus": {
+            "S": "COMPLETED"
+          },
+          "contactId": {
+            "S": "406c4ea7-344f-4fb3-b705-1ba5df1dce8d"
+          },
+          "recordingBucketRegion": {
+            "S": "us-west-2"
+          },
+          "recordingUrl": {
+            "S": "https://s3-us-west-2.amazonaws.com/aws-connect-vm-transcription-hdang/recordings/406c4ea7-344f-4fb3-b705-1ba5df1dce8d_1571777196.wav"
+          },
+          "contactPhoneNumber": {
+            "S": "+13104024459"
+          },
+          "shouldTranscribe": {
+            "BOOL": false
+          },
+          "recordingObjectKey": {
+            "S": "recordings/406c4ea7-344f-4fb3-b705-1ba5df1dce8d_1571777196.wav"
+          },
+          "timestamp": {
+            "N": "1571777196"
+          }
+        },
+        "SequenceNumber": "71824500000000005081464931",
+        "SizeBytes": 1054,
+        "StreamViewType": "NEW_AND_OLD_IMAGES"
+      },
+      "eventSourceARN": "arn:aws:dynamodb:us-west-2:439200502815:table/hdang-ContactVoicemail/stream/2019-10-07T15:25:15.703"
+    }
+  ]
+}
