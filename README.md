@@ -1,8 +1,8 @@
 # Voicemail for Amazon Connect
 This solutions deploys the resources necessary to configure a voicemail system to use with Amazon Connect. See [Solution Architecture](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/).
 
-## Version Update Note
-* Please note that we have pushed an update to the GitHub repo, however, we have not updated the implementation guide yet. If you want to deploy the most recent version, please refer to CHANGELOG.MD. Updates to the implementation guide will be released in the coming weeks. 
+## Development Branch
+We have added a new branch to this solution: the "development" branch. The "development" branch contains the same solution, but has a simplified build system that removes complexities introduced by the AWS Solution. If you would like to pull down this code to modify it for your own testing, you should use the "development" branch. The "development" branch is where we will accept PRs and continue to build out the Voicemail solution with more functionality based on feedback from users. We will update the "master" branch with changes from the "development" branch twice a year.
 
 ## Running unit tests for customization
 * Clone the repository, then make the desired code changes
