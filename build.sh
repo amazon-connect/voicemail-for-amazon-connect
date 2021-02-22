@@ -66,6 +66,7 @@ function build() {
   mkdir -p $DIST_DIR/$AWS_CONNECT_VM_PORTAL
   mkdir -p $DIST_DIR/$AWS_CONNECT_VM_SERVERLESS/packages
   mkdir -p $DIST_DIR/$AWS_CONNECT_VM_SERVERLESS/templates
+  mkdir -p ./build-output
 
   # Execute the build process for the serverless project
   # Uses webpack to transpile the javascript and maven to package java
@@ -77,6 +78,8 @@ function build() {
   # Copy the generated lambda zip and jar files to the .dist directory
   cp "./$AWS_CONNECT_VM_SERVERLESS/target/aws-connect-vm-java.jar" "$AWS_CONNECT_VM_SERVERLESS_DIST/packages/aws-connect-vm-java.jar"
   cp "./$AWS_CONNECT_VM_SERVERLESS/.serverless/aws-connect-vm.zip" "$AWS_CONNECT_VM_SERVERLESS_DIST/packages/aws-connect-vm.zip"
+  cp "./$AWS_CONNECT_VM_SERVERLESS/target/aws-connect-vm-java.jar" "./build-output/aws-connect-vm-java.jar"
+  cp "./$AWS_CONNECT_VM_SERVERLESS/.serverless/aws-connect-vm.zip" "./build-output/aws-connect-vm.zip"
 
   # Copies all the templates to the .dist directory
   cp "./templates/copy-artifacts.template.yaml" "$AWS_CONNECT_VM_SERVERLESS_DIST/templates/copy-artifacts.template.yaml"
