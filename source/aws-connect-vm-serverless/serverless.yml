@@ -94,9 +94,18 @@ functions:
 
   GetAgentByExtension:
     description: >
-      AWS Lambda Function that will be triggered when dialog flow needs to get agent's information based on phone extension
+      AWS Lambda Function triggered when dialog flow needs to get agent's information based on phone extension
     handler: handler/agents.getAgentByExtension
     role: GetAgentByExtensionIamRole
+    environment:
+      USERS_TABLE_NAME: !Ref UsersTable
+      AMAZON_CONNECT_INSTANCE_ARN: !Ref AmazonConnectInstanceArn
+
+  GetAgentByIdInWorkflow:
+    description: >
+      AWS Lambda Function triggered when dialog flow needs to get agent's information based on the agent ID
+    handler: handler/agents.getAgentByIdInWorkflow
+    role: AgentsGetByIdIamRole
     environment:
       USERS_TABLE_NAME: !Ref UsersTable
       AMAZON_CONNECT_INSTANCE_ARN: !Ref AmazonConnectInstanceArn
