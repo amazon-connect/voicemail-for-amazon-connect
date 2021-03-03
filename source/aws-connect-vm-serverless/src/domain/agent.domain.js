@@ -17,6 +17,7 @@ class Agent {
         this.userId = agentMap["userId"];
         this.extension = agentMap["extension"];
         this.username = agentMap["username"];
+        this.email = agentMap["email"];
         this.transcribeVoicemail = agentMap["transcribeVoicemail"] || false;
         this.encryptVoicemail = agentMap["encryptVoicemail"] || false;
         this.deliveryOptions = agentMap["deliveryOptions"] || {
@@ -28,9 +29,9 @@ class Agent {
         };
     }
 
-    static create(userId, extension = null) {
+    static create(userId, extension = null, email = null) {
         return new Agent({
-            userId, extension: extension, deliveryOptions: {
+            userId, extension: extension, email: email, deliveryOptions: {
                 sms: {
                     enabled: false,
                     phoneNumber: null
