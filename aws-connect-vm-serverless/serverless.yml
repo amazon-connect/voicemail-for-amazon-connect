@@ -91,6 +91,7 @@ functions:
       CONTACT_VOICEMAIL_TABLE_NAME: !Ref ContactVoicemailTable
       SIGNED_RECORDING_URL_EXP: !Ref SignedRecordingUrlExpiration
       AVAILABLE_SMS_COUNTRIES: !Ref AvailableSMSCountries
+      SECRET_ARN: !Ref VoicemailSecret
 
   GetAgentByExtension:
     description: >
