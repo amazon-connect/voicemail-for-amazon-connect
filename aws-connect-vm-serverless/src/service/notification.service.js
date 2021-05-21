@@ -73,7 +73,9 @@ class NotificationService {
                 });
             } else if (shouldSendSMS && agentSMSPhoneNumber) {
                 console.log("Send ONLY SMS");
-                return Promise.resolve();
+                return this.getDeliveryContents(options, voicemail).then(contents => {
+                    return this.sendTextMessage(voicemail, agentSMSPhoneNumber, contents);
+                });
             } else if (deliveryOptions.email) {
                 console.log("Send ONLY Email");
                 return this.getDeliveryContents(options, voicemail).then(contents => {
