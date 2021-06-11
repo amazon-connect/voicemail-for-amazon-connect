@@ -322,7 +322,7 @@ Resources:
         Handler: handler/solution-helper.handler
         MemorySize: 256
         Role: !GetAtt SolutionHelperRole.Arn
-        Runtime: nodejs10.x
+        Runtime: nodejs12.x
         Timeout: 300
  
     SolutionUuid:

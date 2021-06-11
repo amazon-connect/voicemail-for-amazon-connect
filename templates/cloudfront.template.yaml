@@ -220,7 +220,7 @@ Resources:
       Handler: handler/cloudfront-helper.handler
       MemorySize: 256
       Role: !GetAtt CloudfrontHelperRole.Arn
-      Runtime: nodejs10.x
+      Runtime: nodejs12.x
       Timeout: 300
   CloudfrontHelperRole:
     Properties:

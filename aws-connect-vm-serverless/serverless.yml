@@ -39,7 +39,7 @@ package:
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   versionFunctions: false
   stage: ${opt:stage, 'prod'}
   region: ${opt:region, 'us-east-1'}
