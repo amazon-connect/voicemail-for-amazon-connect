@@ -4,7 +4,7 @@ This solution deploys the resources necessary to configure a voicemail system to
 **Note:**
 This GitHub repo has diverged from the AWS Solution linked above in order to facilitate an open source solution that can accept community input. The branch named "master" contains the code that backs the solution deployed from the link above. The "development" branch contains the same solution, but has a simplified build system that removes complexities introduced by the AWS Solution. If you would like to pull down this code to modify it for your own testing, you should use the "development" branch.
 
-## Deployment Steps
+## Deployment Steps 
 Follow the deployment steps in the [implementation guide](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/) if you want to deploy the preconfigured solution. If you want to make modifications, follow the below steps to deploy the stack, then continue to follow the solution guide for the post-CloudFormation steps.
 
 ### Deploying Code Locally
