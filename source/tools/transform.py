@@ -57,6 +57,15 @@ def transform_template(template, save_path, lambda_zip_key, lambda_jar_key):
                 }
 
             if key.endswith("LambdaFunction"):
+                # Add CFN_NAG related metadata for all lambda functions
+                resources[key]["Metadata"] = {
+                    "cfn_nag": {
+                        "rules_to_suppress": [
+                            { "id": "W89", "reason": "Lambda functions will not be deployed inside a VPC for now" },
+                            { "id": "W92", "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now" }
+                        ]
+                    }
+                }
                 if key == "KvsProcessRecordingLambdaFunction":
                     resources[key]["Properties"]["Code"] = {
                         "S3Bucket": {
@@ -92,7 +101,7 @@ def transform_template(template, save_path, lambda_zip_key, lambda_jar_key):
                     "BurstLimit" : 500,
                     "RateLimit" : 50.0
                 }
-
+            
             if key.startswith("ContactVoicemailStreamIamRole"):
                 resources[key]["Metadata"] = {
                     "cfn_nag": {
@@ -100,6 +109,15 @@ def transform_template(template, save_path, lambda_zip_key, lambda_jar_key):
                             { "id": "W21", "reason": "NotResource needed to send SMS from SNS." },
                             { "id": "W11", "reason": "Must allow all resources for transcribe." },
                             { "id": "W76", "reason": "IAM policy needs the verbosity." }
+                        ]
+                    }
+                }
+            if key.startswith("ApiAccessLogGroup"):
+                resources[key]["Metadata"] = {
+                    "cfn_nag": {
+                        "rules_to_suppress": [
+                            { "id": "W84", "reason": "CloudWatchLogs LogGroup will not specify a KMS Key Id to encrypt the log data for now." },
+                            { "id": "W86", "reason": "CloudWatchLogs LogGroup will not specify RetentionInDays to expire the log data for now." },
                         ]
                     }
                 }

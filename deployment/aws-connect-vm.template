@@ -22,7 +22,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Description": "AWS Lambda Function that will be triggered when records are written into the ContactVoicemail Table.\n",
         "Environment": {
@@ -56,7 +56,21 @@
       },
       "DependsOn": [
         "ContactVoicemailStreamIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "TranscriptionEventsLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -78,7 +92,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Description": "AWS Lambda Function that will be triggered when transcription status changes.\n",
         "Environment": {
@@ -106,7 +120,21 @@
       },
       "DependsOn": [
         "TranscriptionEventsIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "GetAgentByExtensionLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -128,7 +156,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Description": "AWS Lambda Function that will be triggered when dialog flow needs to get agent's information based on phone extension\n",
         "Environment": {
@@ -144,7 +172,21 @@
       },
       "DependsOn": [
         "GetAgentByExtensionIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "CognitoUsersConfigLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -166,7 +208,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -190,7 +232,21 @@
       },
       "DependsOn": [
         "CognitoUsersConfigIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "AuthorizerLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -212,7 +268,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -227,7 +283,21 @@
       },
       "DependsOn": [
         "AuthorizerIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "AgentsGetLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -249,7 +319,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -264,7 +334,21 @@
       },
       "DependsOn": [
         "AgentsGetIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "AgentsUpdateByIdLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -286,7 +370,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -301,7 +385,21 @@
       },
       "DependsOn": [
         "AgentsUpdateByIdIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "AgentsGetByIdLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -323,7 +421,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -338,7 +436,21 @@
       },
       "DependsOn": [
         "AgentsGetByIdIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "GlobalSettingsUpdateLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -360,7 +472,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -378,7 +490,21 @@
       },
       "DependsOn": [
         "GlobalSettingsUpdateIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "GlobalSettingsGetLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -400,7 +526,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -418,7 +544,21 @@
       },
       "DependsOn": [
         "GlobalSettingsGetIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "BuildContactFlowLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -440,7 +580,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -464,7 +604,21 @@
       },
       "DependsOn": [
         "BuildContactFlowIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "KvsProcessRecordingLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -486,7 +640,7 @@
             "Arn"
           ]
         },
-        "Runtime": "java8",
+        "Runtime": "java8.al2",
         "Timeout": 900,
         "Description": "Process recording via CTR\n",
         "Environment": {
@@ -522,7 +676,21 @@
       },
       "DependsOn": [
         "KvsProcessRecordingIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "ConnectSyncRequestLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -544,7 +712,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 60,
         "Environment": {
           "Variables": {
@@ -568,7 +736,21 @@
       },
       "DependsOn": [
         "ConnectSyncRequestIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "ConnectSyncLambdaFunction": {
       "Type": "AWS::Lambda::Function",
@@ -590,7 +772,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 900,
         "Environment": {
           "Variables": {
@@ -614,7 +796,21 @@
       },
       "DependsOn": [
         "ConnectSyncIamRole"
-      ]
+      ],
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W89",
+              "reason": "Lambda functions will not be deployed inside a VPC for now"
+            },
+            {
+              "id": "W92",
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now"
+            }
+          ]
+        }
+      }
     },
     "ConnectSyncEventsRuleSchedule1": {
       "Type": "AWS::Events::Rule",
@@ -1420,7 +1616,7 @@
         "Type": "TOKEN"
       }
     },
-    "ApiGatewayDeployment1596662832200": {
+    "ApiGatewayDeployment1627667883720": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1466,11 +1662,11 @@
           }
         ]
       },
-      "DependsOn": "ApiGatewayDeployment1596662832200"
+      "DependsOn": "ApiGatewayDeployment1627667883720"
     },
     "ApiGatewayUsagePlan": {
       "Type": "AWS::ApiGateway::UsagePlan",
-      "DependsOn": "ApiGatewayDeployment1596662832200",
+      "DependsOn": "ApiGatewayDeployment1627667883720",
       "Properties": {
         "ApiStages": [
           {
@@ -1969,7 +2165,7 @@
             "Arn"
           ]
         },
-        "UUID": "dee878bf-880a-400d-ae3d-04b06856d121",
+        "UUID": "f77c3128-fbed-4795-a477-24c3a6417d09",
         "AdminEmail": {
           "Ref": "AdminEmail"
         },
@@ -2172,7 +2368,21 @@
       }
     },
     "ApiAccessLogGroup": {
-      "Type": "AWS::Logs::LogGroup"
+      "Type": "AWS::Logs::LogGroup",
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "W84",
+              "reason": "CloudWatchLogs LogGroup will not specify a KMS Key Id to encrypt the log data for now."
+            },
+            {
+              "id": "W86",
+              "reason": "CloudWatchLogs LogGroup will not specify RetentionInDays to expire the log data for now."
+            }
+          ]
+        }
+      }
     },
     "ApiGwIamRole": {
       "Type": "AWS::IAM::Role",

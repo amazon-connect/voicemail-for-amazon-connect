@@ -92,6 +92,13 @@ Resources:
     Type: AWS::CloudFormation::CustomResource
   CopyArtifactsHelperFunction:
     Type: AWS::Lambda::Function
+    Metadata:
+      cfn_nag:
+        rules_to_suppress:
+          - id: W89
+            reason: "Not applicable for this release."
+          - id: W92
+            reason: "Not applicable for this release."
     Properties:
       Code:
         S3Bucket: !Ref HostingBucketName
@@ -100,7 +107,7 @@ Resources:
       Handler: handler/copy-artifacts-helper.handler
       MemorySize: 256
       Role: !GetAtt CopyArtifactsHelperRole.Arn
-      Runtime: nodejs10.x
+      Runtime: nodejs12.x
       Timeout: 300
   CopyArtifactsHelperRole:
     Properties:

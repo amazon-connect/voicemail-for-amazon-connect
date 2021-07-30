@@ -147,7 +147,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-ContactVoicemailStream",
         "Handler": "handler/voicemail.stream",
@@ -158,7 +158,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Description": "AWS Lambda Function that will be triggered when records are written into the ContactVoicemail Table.\n",
         "Environment": {
@@ -202,7 +202,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-TranscriptionEvents",
         "Handler": "handler/transcription.process",
@@ -213,7 +213,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Description": "AWS Lambda Function that will be triggered when transcription status changes.\n",
         "Environment": {
@@ -251,7 +251,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-GetAgentByExtension",
         "Handler": "handler/agents.getAgentByExtension",
@@ -262,7 +262,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Description": "AWS Lambda Function that will be triggered when dialog flow needs to get agent's information based on phone extension\n",
         "Environment": {
@@ -288,7 +288,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-CognitoUsersConfig",
         "Handler": "handler/cognito.usersConfig",
@@ -299,7 +299,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -333,7 +333,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-Authorizer",
         "Handler": "handler/authorizer.handler",
@@ -344,7 +344,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -369,7 +369,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-AgentsGet",
         "Handler": "handler/agents.getAgents",
@@ -380,7 +380,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -405,7 +405,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-AgentsUpdateById",
         "Handler": "handler/agents.updateAgentById",
@@ -416,7 +416,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -441,7 +441,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-AgentsGetById",
         "Handler": "handler/agents.getAgentById",
@@ -452,7 +452,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -477,7 +477,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-GlobalSettingsUpdate",
         "Handler": "handler/global-settings.update",
@@ -488,7 +488,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -516,7 +516,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-GlobalSettingsGet",
         "Handler": "handler/global-settings.get",
@@ -527,7 +527,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -555,7 +555,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-BuildContactFlow",
         "Handler": "handler/contact-flow.build",
@@ -566,7 +566,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -600,7 +600,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm-java.jar"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm-java.jar"
         },
         "FunctionName": "aws-connect-vm-prod-KvsProcessRecording",
         "Handler": "com.amazonaws.kvstream.KVSProcessRecordingLambda::handleRequest",
@@ -611,7 +611,7 @@
             "Arn"
           ]
         },
-        "Runtime": "java8",
+        "Runtime": "java8.al2",
         "Timeout": 900,
         "Description": "Process recording via CTR\n",
         "Environment": {
@@ -657,7 +657,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-ConnectSyncRequest",
         "Handler": "handler/sync-vm-connect.syncRequestHandler",
@@ -668,7 +668,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 60,
         "Environment": {
           "Variables": {
@@ -702,7 +702,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/aws-connect-vm/prod/1596662852274-2020-08-05T21:27:32.274Z/aws-connect-vm.zip"
+          "S3Key": "serverless/aws-connect-vm/prod/1627667900582-2021-07-30T17:58:20.582Z/aws-connect-vm.zip"
         },
         "FunctionName": "aws-connect-vm-prod-ConnectSync",
         "Handler": "handler/sync-vm-connect.syncHandler",
@@ -713,7 +713,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs10.x",
+        "Runtime": "nodejs12.x",
         "Timeout": 900,
         "Environment": {
           "Variables": {
@@ -1472,7 +1472,7 @@
         "Type": "TOKEN"
       }
     },
-    "ApiGatewayDeployment1596662832200": {
+    "ApiGatewayDeployment1627667883720": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -1509,11 +1509,11 @@
           }
         ]
       },
-      "DependsOn": "ApiGatewayDeployment1596662832200"
+      "DependsOn": "ApiGatewayDeployment1627667883720"
     },
     "ApiGatewayUsagePlan": {
       "Type": "AWS::ApiGateway::UsagePlan",
-      "DependsOn": "ApiGatewayDeployment1596662832200",
+      "DependsOn": "ApiGatewayDeployment1627667883720",
       "Properties": {
         "ApiStages": [
           {
@@ -2009,7 +2009,7 @@
             "Arn"
           ]
         },
-        "UUID": "dee878bf-880a-400d-ae3d-04b06856d121",
+        "UUID": "f77c3128-fbed-4795-a477-24c3a6417d09",
         "AdminEmail": {
           "Ref": "AdminEmail"
         },

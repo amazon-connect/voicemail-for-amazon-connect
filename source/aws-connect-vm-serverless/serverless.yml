@@ -39,7 +39,7 @@ package:
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   versionFunctions: false
   stage: ${opt:stage, 'prod'}
   region: ${opt:region, 'us-east-1'}
@@ -205,7 +205,7 @@ functions:
     handler: 'com.amazonaws.kvstream.KVSProcessRecordingLambda::handleRequest'
     role: KvsProcessRecordingIamRole
     timeout: 900
-    runtime: java8
+    runtime: java8.al2
     package:
       individually: true
       artifact: 'target/${self:service}-java.jar'

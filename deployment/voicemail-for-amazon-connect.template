@@ -128,7 +128,7 @@ Mappings:
  
   SourceCode:
     General:
-      S3Bucket: %%BUCKET_NAME%%
+      S3Bucket: "%%BUCKET_NAME%%"
       KeyPrefix: "%%SOLUTION_NAME%%/%%VERSION%%"
       SolutionId: "SO0094"
      
@@ -389,6 +389,13 @@ Resources:
  
     SolutionHelperFunction:
       Type: AWS::Lambda::Function
+      Metadata:
+        cfn_nag:
+          rules_to_suppress:
+            - id: W89
+              reason: "Not applicable for this release."
+            - id: W92
+              reason: "Not applicable for this release."
       Properties:
         Code:
           S3Bucket: !Sub [
@@ -413,7 +420,7 @@ Resources:
         Handler: handler/solution-helper.handler
         MemorySize: 256
         Role: !GetAtt SolutionHelperRole.Arn
-        Runtime: nodejs10.x
+        Runtime: nodejs12.x
         Timeout: 300
  
     SolutionUuid:
