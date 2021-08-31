@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Use regional domain name for S3 (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/48)
 
 ## master branch
+## [1.0.3] - 2021-07-30
+### Changed
+- Bumped nodejs10.X to nodejs12.X in all the relevant assets
+- Bumped java8 to java8.al2 in all the relevant assets
 ## [1.0.2] - 2020-07-01
 You can deploy at https://solutions-reference.s3.amazonaws.com/voicemail-for-amazon-connect/v1.0.2/voicemail-for-amazon-connect.template 
 ### Changed

@@ -486,7 +486,7 @@
             "Arn"
           ]
         }, 
-        "Runtime": "java8", 
+        "Runtime": "java8.al2", 
         "Timeout": 900, 
         "Description": "Process recording via CTR", 
         "Environment": {

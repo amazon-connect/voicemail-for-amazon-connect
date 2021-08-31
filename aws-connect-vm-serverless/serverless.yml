@@ -206,7 +206,7 @@ functions:
     handler: 'com.amazonaws.kvstream.KVSProcessRecordingLambda::handleRequest'
     role: KvsProcessRecordingIamRole
     timeout: 900
-    runtime: java8
+    runtime: java8.al2
     package:
       individually: true
       artifact: 'target/${self:service}-java.jar'
