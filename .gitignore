@@ -6,10 +6,9 @@
 **/out-tsc
 **/Pipfile.lock
 **/*/Pipfile.lock
-
 # dependencies
 **/node_modules
-
+aws-connect-vm-serverless/target/*
 # e2e
 **/e2e/*.js
 **/e2e/*.map
@@ -31,6 +30,7 @@
 **/aws-connect-vm-serverless/.settings/*
 **/aws-connect-vm-serverless/handler/*
 **/aws-connect-vm-serverless/target/*
+**/aws-connect-vm-serverless/target/maven-status/*
 **/.dist/*
 **/aws-connect-vm-portal/build*
 

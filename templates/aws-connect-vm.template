@@ -56,7 +56,21 @@
       }, 
       "DependsOn": [
         "ContactVoicemailStreamIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "TranscriptionEventsLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -100,13 +114,30 @@
             }, 
             "AVAILABLE_SMS_COUNTRIES": {
               "Ref": "AvailableSMSCountries"
+            }, 
+            "SECRET_ARN": {
+              "Ref": "VoicemailSecret"
             }
           }
         }
       }, 
       "DependsOn": [
         "TranscriptionEventsIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "GetAgentByExtensionLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -144,7 +175,21 @@
       }, 
       "DependsOn": [
         "GetAgentByExtensionIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "CognitoUsersConfigLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -190,7 +235,21 @@
       }, 
       "DependsOn": [
         "CognitoUsersConfigIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "AuthorizerLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -227,7 +286,21 @@
       }, 
       "DependsOn": [
         "AuthorizerIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "AgentsGetLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -264,7 +337,21 @@
       }, 
       "DependsOn": [
         "AgentsGetIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "AgentsUpdateByIdLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -301,7 +388,21 @@
       }, 
       "DependsOn": [
         "AgentsUpdateByIdIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "AgentsGetByIdLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -338,7 +439,21 @@
       }, 
       "DependsOn": [
         "AgentsGetByIdIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "GlobalSettingsUpdateLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -378,7 +493,21 @@
       }, 
       "DependsOn": [
         "GlobalSettingsUpdateIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "GlobalSettingsGetLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -418,7 +547,21 @@
       }, 
       "DependsOn": [
         "GlobalSettingsGetIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "BuildContactFlowLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -464,7 +607,21 @@
       }, 
       "DependsOn": [
         "BuildContactFlowIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "KvsProcessRecordingLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -522,7 +679,21 @@
       }, 
       "DependsOn": [
         "KvsProcessRecordingIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "ConnectSyncRequestLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -568,7 +739,21 @@
       }, 
       "DependsOn": [
         "ConnectSyncRequestIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "ConnectSyncLambdaFunction": {
       "Type": "AWS::Lambda::Function", 
@@ -614,7 +799,21 @@
       }, 
       "DependsOn": [
         "ConnectSyncIamRole"
-      ]
+      ], 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "Lambda functions will not be deployed inside a VPC for now", 
+              "id": "W89"
+            }, 
+            {
+              "reason": "Lambda functions will not define ReservedConcurrentExecutions to reserve simultaneous executions for now", 
+              "id": "W92"
+            }
+          ]
+        }
+      }
     }, 
     "ConnectSyncEventsRuleSchedule1": {
       "Type": "AWS::Events::Rule", 
@@ -1420,7 +1619,7 @@
         "Type": "TOKEN"
       }
     }, 
-    "ApiGatewayDeployment1613052727594": {
+    "ApiGatewayDeployment1630530339530": {
       "Type": "AWS::ApiGateway::Deployment", 
       "Properties": {
         "RestApiId": {
@@ -1466,11 +1665,11 @@
           }
         ]
       }, 
-      "DependsOn": "ApiGatewayDeployment1613052727594"
+      "DependsOn": "ApiGatewayDeployment1630530339530"
     }, 
     "ApiGatewayUsagePlan": {
       "Type": "AWS::ApiGateway::UsagePlan", 
-      "DependsOn": "ApiGatewayDeployment1613052727594", 
+      "DependsOn": "ApiGatewayDeployment1630530339530", 
       "Properties": {
         "ApiStages": [
           {
@@ -1969,7 +2168,7 @@
             "Arn"
           ]
         }, 
-        "UUID": "2169dcf5-f64d-4880-9d5e-62b187b6337b", 
+        "UUID": "a6d91968-8828-422d-9f6c-e27a193450eb", 
         "AdminEmail": {
           "Ref": "AdminEmail"
         }, 
@@ -2172,7 +2371,21 @@
       }
     }, 
     "ApiAccessLogGroup": {
-      "Type": "AWS::Logs::LogGroup"
+      "Type": "AWS::Logs::LogGroup", 
+      "Metadata": {
+        "cfn_nag": {
+          "rules_to_suppress": [
+            {
+              "reason": "CloudWatchLogs LogGroup will not specify a KMS Key Id to encrypt the log data for now.", 
+              "id": "W84"
+            }, 
+            {
+              "reason": "CloudWatchLogs LogGroup will not specify RetentionInDays to expire the log data for now.", 
+              "id": "W86"
+            }
+          ]
+        }
+      }
     }, 
     "ApiGwIamRole": {
       "Type": "AWS::IAM::Role", 
@@ -2425,6 +2638,15 @@
                       "ContactVoicemailTable", 
                       "Arn"
                     ]
+                  }
+                }, 
+                {
+                  "Effect": "Allow", 
+                  "Action": [
+                    "secretsmanager:GetSecretValue"
+                  ], 
+                  "Resource": {
+                    "Ref": "VoicemailSecret"
                   }
                 }
               ]
@@ -3483,7 +3705,7 @@
   "Parameters": {
     "AmazonConnectInstanceArn": {
       "Type": "String", 
-      "Default": "", 
+      "Default": "AMAZON_CONNECT_INSTANCE_ARN", 
       "Description": "The ARN of your Amazon Connect Instance"
     }, 
     "DataStreamRetention": {
@@ -3498,51 +3720,51 @@
     }, 
     "DeliveryEmail": {
       "Description": "Transcription delivery email. Make sure this email is verified", 
-      "Default": "", 
+      "Default": "DELIVERY_EMAIL", 
       "Type": "String"
     }, 
     "AvailableSMSCountries": {
-      "Default": "us,ca", 
+      "Default": "AVAILABLE_SMS_COUNTRIES", 
       "Type": "String"
     }, 
     "AdminEmail": {
-      "Default": "", 
+      "Default": "ADMIN_EMAIL", 
       "Type": "String"
     }, 
     "AdminFirstName": {
-      "Default": "", 
+      "Default": "ADMIN_FIRST_NAME", 
       "Type": "String"
     }, 
     "AdminLastName": {
-      "Default": "", 
+      "Default": "ADMIN_LAST_NAME", 
       "Type": "String"
     }, 
     "ManagerEmail": {
-      "Default": "", 
+      "Default": "MANAGER_EMAIL", 
       "Type": "String"
     }, 
     "ManagerFirstName": {
-      "Default": "", 
+      "Default": "MANAGER_FIRST_NAME", 
       "Type": "String"
     }, 
     "ManagerLastName": {
-      "Default": "", 
+      "Default": "MANAGER_LAST_NAME", 
       "Type": "String"
     }, 
     "SignedRecordingUrlExpiration": {
-      "Default": 900, 
+      "Default": "SIGNED_RECORDING_URL_EXP", 
       "Type": "String"
     }, 
     "UserPoolDomainName": {
-      "Default": "", 
+      "Default": "USER_POOL_DOMAIN", 
       "Type": "String"
     }, 
     "SolutionId": {
-      "Default": "", 
+      "Default": "SOLUTION_ID", 
       "Type": "String"
     }, 
     "Uuid": {
-      "Default": "", 
+      "Default": "UUID", 
       "Type": "String"
     }, 
     "VoicemailAccessLogBucket": {
