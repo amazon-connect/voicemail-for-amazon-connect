@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.4] - TBD
 ### Changed
 - Changes to fix missing value of SECRET_ARN from TranscriptionEvents, and adding secretsmanager:GetValue permissions to TranscriptionEventsIamRole
+- Fixed bug where voicemail is not sent for only sms
+- Add the QueueTypes parm to ListQueues to reduce number of items returned
+- Merged in the following PRs:
+    - Bump log4j core version (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/23)
+    - Remove newline character (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/27)
+    - Bump junit version (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/39)
+    - Improved error handling of many users (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/52)
+    - Use regional domain name for S3 (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/48)
+
 
 ## [1.0.3] - 2021-07-30
 ### Changed

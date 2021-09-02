@@ -40,7 +40,8 @@ class ContactFlowService {
 
         // Get queue matching fallback queue name
         let connectQueues = await this.connect.listQueues({
-            InstanceId: this.awsConnectInstanceId
+            InstanceId: this.awsConnectInstanceId,
+            QueueTypes: ["STANDARD"]
         }).promise();
 
         let fallbackQueue = (connectQueues.QueueSummaryList || []).filter(queue => queue.Name === fallbackQueueName)[0];
