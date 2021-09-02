@@ -22,8 +22,8 @@ class ConnectService {
         this.instanceId = process.env.AMAZON_CONNECT_INSTANCE_ARN.split('/')[1];
         this.connect = new AWS.Connect();
 
-        // max backoff time set to 30 sec
-        this.maxBackOffTime = 30;
+        // max backoff time set to 45 sec
+        this.maxBackOffTime = 45;
     }
 
 
@@ -73,7 +73,7 @@ class ConnectService {
     _listConnectUsers(list, nextToken, retry) {
         let params = {
             InstanceId: this.instanceId,
-            MaxResults: 100
+            MaxResults: 1000
         };
         if (nextToken) {
             params["NextToken"] = nextToken;

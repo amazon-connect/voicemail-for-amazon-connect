@@ -270,7 +270,7 @@ Resources:
           UserPoolArn: !GetAtt VoicemailStack.Outputs.UserPoolArn
           SolutionHelperFunctionArn: !GetAtt SolutionHelperFunction.Arn
           PortalBucket: !Ref PortalBucket
-          PortalBucketDomainName: !GetAtt PortalBucket.DomainName
+          PortalBucketDomainName: !GetAtt PortalBucket.RegionalDomainName
           PortalBucketArn: !GetAtt PortalBucket.Arn
  
     PortalBucket:

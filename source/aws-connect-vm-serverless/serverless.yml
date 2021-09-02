@@ -636,6 +636,7 @@ resources:
                     - secretsmanager:GetSecretValue
                   Resource: !Ref VoicemailSecret
 
+
     GetAgentByExtensionIamRole:
       Type: AWS::IAM::Role
       Properties:
