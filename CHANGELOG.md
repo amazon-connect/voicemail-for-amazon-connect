@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.0.4] - TBD
 ### Changed
-- Changes to fix GitHub issue #61 in development branch, where the transcriptioniamrole doesnt have secretsmanager:GetValue permissions
+- Changes to fix missing value of SECRET_ARN from TranscriptionEvents, and adding secretsmanager:GetValue permissions to TranscriptionEventsIamRole
 
 ## [1.0.3] - 2021-07-30
 ### Changed
