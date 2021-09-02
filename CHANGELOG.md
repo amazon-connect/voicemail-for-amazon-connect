@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.4] - TBD
+### Changed
+- Changes to fix GitHub issue #61 in development branch, where the transcriptioniamrole doesnt have secretsmanager:GetValue permissions
+
 ## [1.0.3] - 2021-07-30
 ### Changed
 - Bumped nodejs10.X to nodejs12.X in all the relevant assets
