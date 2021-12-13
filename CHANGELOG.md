@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## development branch
+## [dev_1.0.8] - 2021-12-13
+### Changed
+- Changes to fix github issue #68 in development branch, where log4j version is vulnerable to security breach
 ## [dev_1.0.7] - 2021-09-02
 ### Changed
 - Changes to fix github issue#61 in development branch, where the transcriptioniamrole doesnt have secretsmanager:GetValue permissions
@@ -48,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Bumped nodejs10.X to nodejs12.X in all the relevant assets
 - Bumped java8 to java8.al2 in all the relevant assets
 ## [1.0.2] - 2020-07-01
-You can deploy at https://solutions-reference.s3.amazonaws.com/voicemail-for-amazon-connect/v1.0.2/voicemail-for-amazon-connect.template 
+You can deploy at https://solutions-reference.s3.amazonaws.com/voicemail-for-amazon-connect/v1.0.2/voicemail-for-amazon-connect.template
 ### Changed
 - Fixed bug where customers had to make the email field mutable in the CF template to integrate with SAML.
 - Fixed bug where the pre-signed URL expired after 12 hours. Now the pre-signed URL can be valid up to 7 days.
