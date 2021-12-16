@@ -141,13 +141,13 @@ Resources:
           VoicemailAccessLogBucket: !Ref VoicemailAccessLogBucket
           HostingKeyPrefix: aws-connect-vm-serverless/packages/
           HostingBucketName: __HOSTING_BUCKET__
-          Nonce: "1"
+          Nonce: "__NONCE__"
     VoicemailStack:
       Type: AWS::CloudFormation::Stack
       DependsOn: CopyLambdaArtifactsStack
       Properties:
         TemplateURL: !Sub
-          - https://${HostingBucketName}.s3.amazonaws.com/${HostingKeyPrefix}templates/aws-connect-vm.template
+          - https://${HostingBucketName}.s3.amazonaws.com/${HostingKeyPrefix}templates/aws-connect-vm.template.yaml
           - { HostingBucketName: __HOSTING_BUCKET__, HostingKeyPrefix: aws-connect-vm-serverless/ }
         Parameters:
           ServerlessDeploymentBucket: !GetAtt CopyLambdaArtifactsStack.Outputs.LambdaArtifactsBucket
@@ -185,6 +185,7 @@ Resources:
           - https://${HostingBucketName}.s3.amazonaws.com/${HostingKeyPrefix}templates/cloudfront.template.yaml
           - { HostingBucketName: __HOSTING_BUCKET__, HostingKeyPrefix: aws-connect-vm-serverless/ }
         Parameters:
+          Nonce: "__NONCE__"
           ApiGatewayApiKey: !GetAtt VoicemailStack.Outputs.ApiGatewayApiKey
           BaseApi: !GetAtt VoicemailStack.Outputs.ServiceEndpoint
           HostingBucketName: __HOSTING_BUCKET__

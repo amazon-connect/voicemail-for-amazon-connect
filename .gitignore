@@ -1,5 +1,6 @@
 # compiled output
 **/.dist
+**/build-output
 **/open-source
 **/.zip
 **/tmp
@@ -8,7 +9,7 @@
 **/*/Pipfile.lock
 # dependencies
 **/node_modules
-aws-connect-vm-serverless/target/*
+aws-connect-vm-serverless/target
 # e2e
 **/e2e/*.js
 **/e2e/*.map
@@ -21,17 +22,16 @@ aws-connect-vm-serverless/target/*
 # System Files
 **/.DS_Store
 **/.vscode
+**/.idea
 
 **/aws-connect-vm-serverless/mock/*
-**/aws-connect-vm-serverless/.serverless/*
+**/aws-connect-vm-serverless/.serverless
 **/aws-connect-vm-serverless/.project
 **/aws-connect-vm-serverless/.classpath
 **/aws-connect-vm-serverless/.factorypath
-**/aws-connect-vm-serverless/.settings/*
-**/aws-connect-vm-serverless/handler/*
-**/aws-connect-vm-serverless/target/*
-**/aws-connect-vm-serverless/target/maven-status/*
+**/aws-connect-vm-serverless/.settings
+**/aws-connect-vm-serverless/handler
+
 **/.dist/*
 **/aws-connect-vm-portal/build*
-
-**/handler/*
+**/env/.*

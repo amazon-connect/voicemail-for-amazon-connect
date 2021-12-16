@@ -5,6 +5,45 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## development branch
+
+## [dev_1.0.9] - 2021-12-16
+
+### Added
+- aws-connect-vm-portal/env/env.template added as a single front-end config that is updated during deployment
+
+### Changed
+- gitignore updated to remove auto generated files during build/bundle
+- aws-connect-vm-portal/package.json - removed deprecated scripts and moved dev dependencies to devDependencies
+- aws-connect-vm-serverless/package.json - removed deprecated scripts and moved dev dependencies to devDependencies
+- aws-connect-vm-serverless/pom.xml - bumped dependencies, including log4j and amazon-kinesis-video-streams-parser-library
+- aws-connect-vm-serverless/serverless.yml - removed `config` since it was deprecated
+- build.sh - improving readability
+- templates/cloudfront.template.yaml - `Nonce` introduced to redeploy after each build
+- templates/voicemail-for-amazon-connect.template.yaml - `Nonce` introduced to redeploy after each build
+- tools/replace_hosting_bucket.py - `Nonce` introduced to redeploy after each build
+
+### Removed
+- Duplicated LICENSE.txt removed
+- Duplicated NOTICE.txt removed
+- aws-connect-vm-portal/Pipfile removed since it was deprecated
+- aws-connect-vm-portal/README.md removed since it was deprecated
+- aws-connect-vm-portal/env/.env.dev removed since it was deprecated
+- aws-connect-vm-portal/env/dev-us-west-2.env removed since it was deprecated
+- aws-connect-vm-portal/env/.env.prod removed since it was deprecated
+- aws-connect-vm-portal/env/prod-us-east-1.env removed since it was deprecated
+- aws-connect-vm-portal/scripts/development.sh removed since it was deprecated
+- aws-connect-vm-portal/scripts/modify_build.js removed since it was deprecated
+- aws-connect-vm-portal/scripts/uploader.js removed since it was deprecated
+- aws-connect-vm-portal/stacker.yml removed since it was deprecated
+- aws-connect-vm-portal/templates/cloudfront.yml removed since it was deprecated
+- aws-connect-vm-serverless/env/prod-us-east-1.yml removed since it was deprecated
+- aws-connect-vm-serverless/target/aws-connect-vm-java.jar removed since it was auto-generated
+- Removed all .class files since these are auto-generated
+- aws-connect-vm-serverless/target/original-aws-connect-vm-java.jar removed since it was auto-generated
+- build-output/aws-connect-vm-java.jar removed since it was auto-generated
+- build-output/aws-connect-vm.zip removed since it was auto-generated
+
+
 ## [dev_1.0.8] - 2021-12-13
 ### Changed
 - Changes to fix github issue #68 in development branch, where log4j version is vulnerable to security breach

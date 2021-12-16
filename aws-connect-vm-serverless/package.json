@@ -4,8 +4,6 @@
   "description": "",
   "scripts": {
     "build": "webpack && mvn clean package",
-    "info:dev": "sls info --verbose --stage dev --region us-west-2 | node tools/process-output.js ",
-    "deploy:dev": "npm run build && sls deploy --stage dev --region us-west-2 && npm run info:dev",
     "test": "jest tests/*.test.js"
   },
   "author": "",
@@ -15,14 +13,12 @@
     "awesome-phonenumber": "^2.20.0",
     "babel-runtime": "^6.26.0",
     "jmespath": "^0.15.0",
-    "maven": "^5.0.0",
     "node-fetch": "^2.6.0",
     "node-jose": "^1.1.3",
     "nodemailer": "^6.3.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "source-map-support": "^0.5.16",
-    "typescript": "^4.1.3",
     "utf8": "^3.0.0",
     "uuid": "^3.4.0",
     "xml2js": "^0.4.22"
@@ -51,7 +47,9 @@
     "serverless-webpack": "^5.3.1",
     "webpack": "^4.19.1",
     "webpack-cli": "^3.3.11",
-    "webpack-node-externals": "^1.7.2"
+    "webpack-node-externals": "^1.7.2",
+    "typescript": "^4.1.3",
+    "maven": "^5.0.0"
   },
   "jest": {
     "verbose": true,

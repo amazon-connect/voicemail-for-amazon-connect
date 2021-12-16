@@ -12,13 +12,15 @@
 #******************************************************************************
 
 import argparse
-
+import time
 
 def replace_hosting_bucket(template_path, save_path, hosting_bucket_name):
+    nonce = int(time.time())
     with open(template_path, "rt") as file_in:
         with open(save_path, "wt") as file_out:
             for line in file_in:
-                file_out.write(line.replace('__HOSTING_BUCKET__', hosting_bucket_name))
+                mod_line = line.replace('__HOSTING_BUCKET__', hosting_bucket_name).replace('__NONCE__', str(nonce))
+                file_out.write(mod_line)
 
 
 if __name__ == "__main__":

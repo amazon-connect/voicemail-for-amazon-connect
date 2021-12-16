@@ -20,7 +20,6 @@ plugins:
   - serverless-pseudo-parameters
 
 custom:
-  config: ${file(env/${self:provider.stage}-${self:provider.region}.yml)}
   authorizers:
     custom-roles:
       name: Authorizer

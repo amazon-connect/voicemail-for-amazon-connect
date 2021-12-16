@@ -16,6 +16,10 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Amazon Connect VM Portal Stack
 Parameters:
+  Nonce:
+    Default: "1"
+    Type: String
+    Description: Change to any value re-copy source upon deployment
   DefaultRoot:
     Description: 'The default path for the index document.'
     Type: String
@@ -136,6 +140,7 @@ Resources:
       - CleanUpS3Bucket
     Type: AWS::CloudFormation::CustomResource
     Properties:
+      Nonce: !Ref Nonce
       ServiceToken: !Ref SolutionHelperFunctionArn
       SourceBucket: !Ref HostingBucketName
       DestBucket: !Ref PortalBucket
