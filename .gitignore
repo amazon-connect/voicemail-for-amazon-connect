@@ -26,10 +26,6 @@
 # System Files
 **/.DS_Store
 **/.vscode
-<<<<<<< HEAD
-**/.idea
-=======
->>>>>>> release/v1.0.4
 
 **/source/aws-connect-vm-serverless/mock/*
 **/source/aws-connect-vm-serverless/.serverless/*
