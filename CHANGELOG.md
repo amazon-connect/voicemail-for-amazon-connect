@@ -4,18 +4,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.5] - TBD
-### Changed
-- Changes to fix missing value of SECRET_ARN from TranscriptionEvents, and adding secretsmanager:GetValue permissions to TranscriptionEventsIamRole
-- Fixed bug where voicemail is not sent for only sms
-- Add the QueueTypes parm to ListQueues to reduce number of items returned
-- Merged in the following PRs:
-    - Bump log4j core version (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/23)
-    - Remove newline character (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/27)
-    - Bump junit version (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/39)
-    - Improved error handling of many users (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/52)
-    - Use regional domain name for S3 (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/48)
-
 ## [1.0.4] - 2021-12-21
 ### Changed
 - Bumped `amazon-kinesis-video-streams-parser-library` to `1.1.0`
