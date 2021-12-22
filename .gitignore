@@ -1,0 +1,42 @@
+# compiled output
+**/dist
+**/global-s3-assets
+**/regional-s3-assets
+**/open-source
+**/.zip
+**/tmp
+**/out-tsc
+**/Pipfile.lock
+**/source/Pipfile.lock
+**/source/*/Pipfile.lock
+
+# dependencies
+**/node_modules
+
+# e2e
+**/e2e/*.js
+**/e2e/*.map
+
+# misc
+**/npm-debug.log
+**/testem.log
+**/package-lock.json
+**/.vscode/settings.json
+
+# System Files
+**/.DS_Store
+**/.vscode
+<<<<<<< HEAD
+**/.idea
+=======
+>>>>>>> release/v1.0.4
+
+**/source/aws-connect-vm-serverless/mock/*
+**/source/aws-connect-vm-serverless/.serverless/*
+**/source/aws-connect-vm-serverless/.project
+**/source/aws-connect-vm-serverless/.classpath
+**/source/aws-connect-vm-serverless/.factorypath
+**/source/aws-connect-vm-serverless/.settings/*
+**/source/aws-connect-vm-serverless/handler/*
+**/source/aws-connect-vm-serverless/target/*
+**/source/.dist/*
