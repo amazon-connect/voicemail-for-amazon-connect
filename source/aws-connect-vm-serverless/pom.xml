@@ -63,7 +63,7 @@
     <dependency>
       <groupId>com.amazonaws</groupId>
       <artifactId>amazon-kinesis-video-streams-parser-library</artifactId>
-      <version>1.1.0</version>
+      <version>1.2.2</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
