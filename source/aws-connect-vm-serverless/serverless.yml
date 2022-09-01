@@ -17,7 +17,6 @@ service: aws-connect-vm
 
 plugins:
   - serverless-prune-plugin
-  - serverless-pseudo-parameters
 
 custom:
   config: ${file(env/${self:provider.stage}-${self:provider.region}.yml)}
@@ -30,25 +29,22 @@ custom:
 
 package:
   exclude:
-    - 'target/**'
-    - 'src/**'
-    - 'tests/**'
-    - 'tools/**'
-    - 'mock/**'
-    - 'env/**'
+    - "target/**"
+    - "src/**"
+    - "tests/**"
+    - "tools/**"
+    - "mock/**"
+    - "env/**"
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   versionFunctions: false
   stage: ${opt:stage, 'prod'}
   region: ${opt:region, 'us-east-1'}
   timeout: 30
-  apiKeys:
-    - ${self:provider.stage}-${self:service}-api-key
 
 functions:
-
   ContactVoicemailStream:
     handler: handler/voicemail.stream
     role: ContactVoicemailStreamIamRole
@@ -77,9 +73,9 @@ functions:
       - cloudwatchEvent:
           event:
             source:
-              - 'aws.transcribe'
+              - "aws.transcribe"
             detail-type:
-              - 'Transcribe Job State Change'
+              - "Transcribe Job State Change"
             detail:
               TranscriptionJobStatus:
                 - COMPLETED
@@ -196,20 +192,20 @@ functions:
           path: contact/flow
           authorizer: ${self:custom.authorizers.custom-roles}
     environment:
-      GET_AGENT_BY_EXTENSION_LAMBDA_ARN: "arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:#{GetAgentByExtensionLambdaFunction}"
+      GET_AGENT_BY_EXTENSION_LAMBDA_ARN: !Sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${GetAgentByExtensionLambdaFunction}"
       AMAZON_CONNECT_INSTANCE_ARN: !Ref AmazonConnectInstanceArn
       SOLUTION_ID: !Ref SolutionId
       UUID: !Ref Uuid
       SEND_ANON_DATA: !Ref SendAnonymousData
 
   KvsProcessRecording:
-    handler: 'com.amazonaws.kvstream.KVSProcessRecordingLambda::handleRequest'
+    handler: "com.amazonaws.kvstream.KVSProcessRecordingLambda::handleRequest"
     role: KvsProcessRecordingIamRole
     timeout: 900
     runtime: java8.al2
     package:
       individually: true
-      artifact: 'target/${self:service}-java.jar'
+      artifact: "target/${self:service}-java.jar"
     description: >
       Process recording via CTR
     events:
@@ -220,11 +216,11 @@ functions:
     environment:
       START_SELECTOR_TYPE: FRAGMENT_NUMBER
       TRANSCRIBE_REGION: !Ref AWS::Region
-      RECORDINGS_KEY_PREFIX: 'recordings/'
+      RECORDINGS_KEY_PREFIX: "recordings/"
       RECORDINGS_BUCKET_NAME: !Ref AudioRecordingsBucket
-      INPUT_KEY_PREFIX: 'audio-file-input/'
-      LOG_RECORDS_FLAG: 'TRUE'
-      RECORDINGS_PUBLIC_READ_ACL: 'FALSE'
+      INPUT_KEY_PREFIX: "audio-file-input/"
+      LOG_RECORDS_FLAG: "TRUE"
+      RECORDINGS_PUBLIC_READ_ACL: "FALSE"
       APP_REGION: !Ref AWS::Region
       CONTACT_VOICEMAIL_TABLE_NAME: !Ref ContactVoicemailTable
       SOLUTION_ID: !Ref SolutionId
@@ -329,8 +325,7 @@ resources:
       AllowedValues: [true, false]
 
   Resources:
-
-# Cognito
+    # Cognito
     CognitoUserPoolUserPool:
       Type: AWS::Cognito::UserPool
       Properties:
@@ -369,8 +364,6 @@ resources:
 
     AmazonConnectGetAgentLambdaRights:
       Type: AWS::Lambda::Permission
-      Description: >
-        Allows amazon connect to invoke the GetAgentByExtension lambda
       Properties:
         FunctionName:
           Ref: GetAgentByExtensionLambdaFunction
@@ -392,7 +385,7 @@ resources:
         ManagerFirstName: !Ref ManagerFirstName
         ManagerLastName: !Ref ManagerLastName
 
-# Tables
+    # Tables
     UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -460,17 +453,17 @@ resources:
             Projection:
               ProjectionType: ALL
 
-# Kinesis
+    # Kinesis
     DataStream:
       Type: AWS::Kinesis::Stream
       Properties:
         RetentionPeriodHours: !Ref DataStreamRetention
         ShardCount: !Ref DataStreamShardCount
         StreamEncryption:
-            EncryptionType: KMS
-            KeyId: alias/aws/kinesis
+          EncryptionType: KMS
+          KeyId: alias/aws/kinesis
 
-# Bucket
+    # Bucket
     AudioRecordingsBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -489,20 +482,18 @@ resources:
         CorsConfiguration:
           CorsRules:
             - AllowedOrigins:
-                - '*'
+                - "*"
               AllowedHeaders:
-                - '*'
+                - "*"
               AllowedMethods:
                 - PUT
                 - HEAD
-              MaxAge: '3000'
+              MaxAge: "3000"
         LoggingConfiguration:
           DestinationBucketName: !Ref VoicemailAccessLogBucket
           LogFilePrefix: "audio-recording-bucket-logs"
 
-    
-
-  # Log Group
+    # Log Group
     ApiAccessLogGroup:
       Type: AWS::Logs::LogGroup
 
@@ -511,7 +502,7 @@ resources:
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -519,14 +510,14 @@ resources:
                   - apigateway.amazonaws.com
               Action: sts:AssumeRole
         ManagedPolicyArns:
-        - "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+          - "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
 
     ApiGwAccountConfig:
       Type: "AWS::ApiGateway::Account"
       Properties:
         CloudWatchRoleArn: !GetAtt "ApiGwIamRole.Arn"
 
-  # IAM Permissions
+    # IAM Permissions
     ContactVoicemailStreamIamRole:
       DependsOn:
         - VoicemailSecret
@@ -534,7 +525,7 @@ resources:
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -544,7 +535,7 @@ resources:
         Policies:
           - PolicyName: ContactVoicemailStreamPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -552,7 +543,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - ses:SendRawEmail
@@ -584,30 +575,29 @@ resources:
                     - connect:DescribeUser
                   Resource:
                     Fn::Join:
-                      - ''
+                      - ""
                       - - !Ref AmazonConnectInstanceArn
-                        - '/agent/*'
+                        - "/agent/*"
                 - Effect: Allow
                   Action:
                     - s3:GetObject
                     - s3:GetSignedUrl
                   Resource:
                     Fn::Join:
-                      - ''
+                      - ""
                       - - !GetAtt AudioRecordingsBucket.Arn
-                        - '/*'
+                        - "/*"
                 - Effect: Allow
                   Action:
                     - secretsmanager:GetSecretValue
                   Resource: !Ref VoicemailSecret
-
 
     TranscriptionEventsIamRole:
       Type: AWS::IAM::Role
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -617,7 +607,7 @@ resources:
         Policies:
           - PolicyName: TranscriptionEventsPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -625,7 +615,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:Query
@@ -636,13 +626,12 @@ resources:
                     - secretsmanager:GetSecretValue
                   Resource: !Ref VoicemailSecret
 
-
     GetAgentByExtensionIamRole:
       Type: AWS::IAM::Role
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -652,7 +641,7 @@ resources:
         Policies:
           - PolicyName: GetAgentByExtensionPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -660,32 +649,32 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:Query
                   Resource:
                     Fn::Join:
-                      - ''
+                      - ""
                       - - !GetAtt UsersTable.Arn
-                        - '/index/*'
+                        - "/index/*"
                 - Effect: Allow
                   Action:
                     - connect:ListUsers
                     - connect:DescribeUser
-                  Resource: 
+                  Resource:
                     - !Ref AmazonConnectInstanceArn
                     - Fn::Join:
-                        - ''
+                        - ""
                         - - !Ref AmazonConnectInstanceArn
-                          - '/agent/*'
+                          - "/agent/*"
 
     CognitoUsersConfigIamRole:
       Type: AWS::IAM::Role
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -695,7 +684,7 @@ resources:
         Policies:
           - PolicyName: CognitoUsersConfigPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -703,7 +692,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - cognito-idp:AdminCreateUser
@@ -714,7 +703,7 @@ resources:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                  Resource: 
+                  Resource:
                     - !GetAtt GlobalTable.Arn
 
     AuthorizerIamRole:
@@ -722,7 +711,7 @@ resources:
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -732,7 +721,7 @@ resources:
         Policies:
           - PolicyName: AuthorizerPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -740,14 +729,14 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
 
     AgentsGetIamRole:
       Type: AWS::IAM::Role
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -757,7 +746,7 @@ resources:
         Policies:
           - PolicyName: AgentsGetPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -765,11 +754,11 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:Scan
-                  Resource: 
+                  Resource:
                     - !GetAtt UsersTable.Arn
 
     AgentsUpdateByIdIamRole:
@@ -777,7 +766,7 @@ resources:
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -787,7 +776,7 @@ resources:
         Policies:
           - PolicyName: AgentsUpdateByIdPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -795,34 +784,34 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:GetItem
                     - dynamodb:PutItem
                     - dynamodb:Query
                     - dynamodb:UpdateItem
-                  Resource: 
+                  Resource:
                     - !GetAtt UsersTable.Arn
                     - Fn::Join:
-                      - ''
-                      - - !GetAtt UsersTable.Arn
-                        - '/index/*'
+                        - ""
+                        - - !GetAtt UsersTable.Arn
+                          - "/index/*"
                 - Effect: Allow
                   Action:
                     - connect:DescribeUser
                   Resource:
                     Fn::Join:
-                      - ''
+                      - ""
                       - - !Ref AmazonConnectInstanceArn
-                        - '/agent/*'
+                        - "/agent/*"
 
     AgentsGetByIdIamRole:
       Type: AWS::IAM::Role
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -832,7 +821,7 @@ resources:
         Policies:
           - PolicyName: AgentsGetByIdPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -840,29 +829,29 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:GetItem
                     - dynamodb:PutItem
-                  Resource: 
+                  Resource:
                     - !GetAtt UsersTable.Arn
                 - Effect: Allow
                   Action:
                     - connect:ListUsers
                     - connect:DescribeUser
-                  Resource: 
+                  Resource:
                     Fn::Join:
-                      - ''
+                      - ""
                       - - !Ref AmazonConnectInstanceArn
-                        - '/agent/*'
+                        - "/agent/*"
 
     GlobalSettingsUpdateIamRole:
       Type: AWS::IAM::Role
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -872,7 +861,7 @@ resources:
         Policies:
           - PolicyName: GlobalSettingsUpdatePolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -880,13 +869,13 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:GetItem
                     - dynamodb:PutItem
                     - dynamodb:UpdateItem
-                  Resource: 
+                  Resource:
                     - !GetAtt GlobalTable.Arn
 
     GlobalSettingsGetIamRole:
@@ -894,7 +883,7 @@ resources:
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -904,7 +893,7 @@ resources:
         Policies:
           - PolicyName: GlobalSettingsGetPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -912,19 +901,19 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:GetItem
-                  Resource: 
+                  Resource:
                     - !GetAtt GlobalTable.Arn
-    
+
     BuildContactFlowIamRole:
       Type: AWS::IAM::Role
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -934,7 +923,7 @@ resources:
         Policies:
           - PolicyName: BuildContactFlowPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -942,22 +931,22 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - connect:ListQueues
                   Resource:
                     Fn::Join:
-                      - ''
+                      - ""
                       - - !Ref AmazonConnectInstanceArn
-                        - '/queue/*'
+                        - "/queue/*"
 
     KvsProcessRecordingIamRole:
       Type: AWS::IAM::Role
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -967,7 +956,7 @@ resources:
         Policies:
           - PolicyName: KvsProcessRecordingPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -975,7 +964,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - transcribe:GetTranscriptionJob
@@ -1000,9 +989,9 @@ resources:
                     - s3:PutObjectAcl
                   Resource:
                     Fn::Join:
-                      - ''
+                      - ""
                       - - !GetAtt AudioRecordingsBucket.Arn
-                        - '/*'
+                        - "/*"
                 - Effect: Allow
                   Action:
                     - kinesisvideo:GetMedia
@@ -1014,7 +1003,7 @@ resources:
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -1024,7 +1013,7 @@ resources:
         Policies:
           - PolicyName: ConnectSyncRequestPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -1032,12 +1021,12 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:Scan
                     - dynamodb:BatchWriteItem
-                  Resource: 
+                  Resource:
                     - !GetAtt UsersTable.Arn
                 - Effect: Allow
                   Action:
@@ -1049,7 +1038,7 @@ resources:
       Properties:
         Path: /
         AssumeRolePolicyDocument:
-          Version: '2012-10-17'
+          Version: "2012-10-17"
           Statement:
             - Effect: Allow
               Principal:
@@ -1059,7 +1048,7 @@ resources:
         Policies:
           - PolicyName: ConnectSyncPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -1067,12 +1056,12 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:Scan
                     - dynamodb:BatchWriteItem
-                  Resource: 
+                  Resource:
                     - !GetAtt UsersTable.Arn
                 - Effect: Allow
                   Action:
@@ -1084,16 +1073,16 @@ resources:
         - VoicemailIamUserGroup
       Type: AWS::IAM::User
       Properties:
-        Groups: 
-         - !Ref VoicemailIamUserGroup
+        Groups:
+          - !Ref VoicemailIamUserGroup
 
     VoicemailIamUserGroup:
       Type: AWS::IAM::Group
-      Properties: 
+      Properties:
         Policies:
           - PolicyName: VoicemailIamPolicy
             PolicyDocument:
-              Version: '2012-10-17'
+              Version: "2012-10-17"
               Statement:
                 - Effect: Allow
                   Action:
@@ -1101,9 +1090,9 @@ resources:
                     - s3:GetSignedUrl
                   Resource:
                     Fn::Join:
-                      - ''
+                      - ""
                       - - !GetAtt AudioRecordingsBucket.Arn
-                        - '/*'
+                        - "/*"
 
     VoicemailIamUserAccessKey:
       DependsOn:
@@ -1118,29 +1107,58 @@ resources:
         - VoicemailIamUserAccessKey
       Type: AWS::SecretsManager::Secret
       Properties:
-        Description: 'IAM Access Key Secret'
+        Description: "IAM Access Key Secret"
         SecretString:
           Fn::Join:
-            - ''
-            - - "{\"accessKeyId\":"
-              - "\""
+            - ""
+            - - '{"accessKeyId":'
+              - '"'
               - !Ref VoicemailIamUserAccessKey
-              - "\""
-              - ",\"secretAccessKey\":"
-              - "\""
+              - '"'
+              - ',"secretAccessKey":'
+              - '"'
               - !GetAtt VoicemailIamUserAccessKey.SecretAccessKey
-              - "\"}"
+              - '"}'
       Metadata:
         cfn_nag:
           rules_to_suppress:
-          - id: W77
-            reason: Uses the account's default AWS managed CMK for Secrets Manager·
+            - id: W77
+              reason: Uses the account's default AWS managed CMK for Secrets Manager·
 
+    ApiGatewayApiKey1:
+      Type: "AWS::ApiGateway::ApiKey"
+      Properties:
+        Enabled: true
+        StageKeys:
+          - RestApiId:
+              Ref: ApiGatewayRestApi
+            StageName: ${self:provider.stage}
+      DependsOn: ApiGatewayDeployment${sls:instanceId}
+    ApiGatewayUsagePlan:
+      Type: "AWS::ApiGateway::UsagePlan"
+      DependsOn: ApiGatewayDeployment${sls:instanceId}
+      Properties:
+        ApiStages:
+          - ApiId:
+              Ref: ApiGatewayRestApi
+            Stage: ${self:provider.stage}
+        Description: Usage plan for aws-connect-vm prod stage
+        Throttle:
+          BurstLimit: 500
+          RateLimit: 50
+    ApiGatewayUsagePlanKey1:
+      Type: "AWS::ApiGateway::UsagePlanKey"
+      Properties:
+        KeyId:
+          Ref: ApiGatewayApiKey1
+        KeyType: API_KEY
+        UsagePlanId:
+          Ref: ApiGatewayUsagePlan
   Outputs:
     ApiGatewayApiKey:
-      Value: !Ref ApiGatewayApiKey1
+      Value: !GetAtt ApiGatewayApiKey1.APIKeyId
     CognitoDomain:
-      Value: !Sub "#{UserPoolDomain}.auth.#{AWS::Region}.amazoncognito.com"
+      Value: !Sub "${UserPoolDomain}.auth.${AWS::Region}.amazoncognito.com"
     UserPoolId:
       Value: !Ref CognitoUserPoolUserPool
     UserPoolArn:

@@ -107,7 +107,7 @@ Resources:
       Handler: handler/copy-artifacts-helper.handler
       MemorySize: 256
       Role: !GetAtt CopyArtifactsHelperRole.Arn
-      Runtime: nodejs12.x
+      Runtime: nodejs16.x
       Timeout: 300
   CopyArtifactsHelperRole:
     Properties:

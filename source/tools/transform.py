@@ -87,19 +87,9 @@ def transform_template(template, save_path, lambda_zip_key, lambda_jar_key):
                         }
                     }
 
-            if key == "ApiGatewayApiKey1":
-                del resources[key]["Properties"]["Name"]
-
             if key == "ApiGatewayRestApi":
                 resources[key]["Properties"]["Name"] = {
                     "Fn::Join": ["", [{"Ref": "AWS::StackName"}, "-", "api"]]
-                }
-
-            if key == "ApiGatewayUsagePlan":
-                del resources[key]["Properties"]["UsagePlanName"]
-                resources[key]["Properties"]["Throttle"] = {
-                    "BurstLimit" : 500,
-                    "RateLimit" : 50.0
                 }
             
             if key.startswith("ContactVoicemailStreamIamRole"):

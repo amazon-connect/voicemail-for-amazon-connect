@@ -9,6 +9,8 @@
 **/Pipfile.lock
 **/source/Pipfile.lock
 **/source/*/Pipfile.lock
+deployment/aws-connect-vm.yaml
+source/aws-connect-vm-portal/build/**
 
 # dependencies
 **/node_modules

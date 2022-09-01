@@ -22,7 +22,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Description": "AWS Lambda Function that will be triggered when records are written into the ContactVoicemail Table.\n",
         "Environment": {
@@ -92,7 +92,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Description": "AWS Lambda Function that will be triggered when transcription status changes.",
         "Environment": {
@@ -156,7 +156,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Description": "AWS Lambda Function that will be triggered when dialog flow needs to get agent's information based on phone extension",
         "Environment": {
@@ -208,7 +208,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -268,7 +268,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -319,7 +319,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -370,7 +370,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -421,7 +421,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -472,7 +472,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -526,7 +526,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -580,7 +580,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 30,
         "Environment": {
           "Variables": {
@@ -712,7 +712,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 60,
         "Environment": {
           "Variables": {
@@ -772,7 +772,7 @@
             "Arn"
           ]
         },
-        "Runtime": "nodejs12.x",
+        "Runtime": "nodejs16.x",
         "Timeout": 900,
         "Environment": {
           "Variables": {
