@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## development branch
 
+## [dev_1.1.0] - 2022-10-31
+### Added
+- [Voicemail For Amazon Connect implementation guide pdf](voicemail-for-amazon-connect-implementation-guide.pdf)
+
+### Changed
+- Updated links in README
+
+
 ## [dev_1.0.9] - 2021-12-16
 
 ### Added

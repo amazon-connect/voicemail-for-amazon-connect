@@ -1,11 +1,11 @@
 # Voicemail for Amazon Connect
-This solution deploys the resources necessary to configure a voicemail system to use with Amazon Connect. Read the [implementation guide](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/) to see the architecture and get an in depth understanding of the solution.
+This solution deploys the resources necessary to configure a voicemail system to use with Amazon Connect. Read the [implementation guide](voicemail-for-amazon-connect-implementation-guide.pdf) to see the architecture and get an in depth understanding of the solution.
 
 **Note:**
 This GitHub repo has diverged from the AWS Solution linked above in order to facilitate an open source solution that can accept community input. The branch named "master" contains the code that backs the solution deployed from the link above. The "development" branch contains the same solution, but has a simplified build system that removes complexities introduced by the AWS Solution. If you would like to pull down this code to modify it for your own testing, you should use the "development" branch.
 
 ## Deployment Steps 
-Follow the deployment steps in the [implementation guide](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/) if you want to deploy the preconfigured solution. If you want to make modifications, follow the below steps to deploy the stack, then continue to follow the solution guide for the post-CloudFormation steps.
+Follow the deployment steps in the [implementation guide](voicemail-for-amazon-connect-implementation-guide.pdf) if you want to deploy the preconfigured solution. If you want to make modifications, follow the below steps to deploy the stack, then continue to follow the solution guide for the post-CloudFormation steps.
 
 ### Deploying Code Locally
 
@@ -38,7 +38,7 @@ $ sh ./build.sh build --stage prod --region ${BUCKET_REGION} --bucket ${YOUR_BUC
 ```
 * Get the link of the solution main template uploaded to your Amazon S3 bucket. (It will be under aws-connect-vm-serverless/templates/voicemail-for-amazon-connect.template.yaml)
 * Deploy the solution to your account by launching a new AWS CloudFormation stack using the link of the solution template in Amazon S3. **Note: This should be in the same region as the Amazon Connect instance you want to use**
-* Follow the rest of the deployment steps from the [implementation guide](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/).
+* Follow the rest of the deployment steps from the [implementation guide](voicemail-for-amazon-connect-implementation-guide.pdf).
 
 ## Solution Updates
 If you make any adjustments to this solution for your use case, we would love to pull in the changes so that others can benefit from them too. Please submit a Pull Request with details to what your changes are and we will either add them to the core solution, create a separate branch, or add it to the `solutionVariants` folder depending on the change.
@@ -47,7 +47,7 @@ If you make any adjustments to this solution for your use case, we would love to
 
 This solution collects anonymous operational metrics to help AWS improve the
 quality of features of the solution. For more information, including how to disable
-this capability, please see the [implementation guide](https://docs.aws.amazon.com/solutions/latest/voicemail-for-amazon-connect/collection-of-operational-metrics.html).
+this capability, please see the [implementation guide](voicemail-for-amazon-connect-implementation-guide.pdf).
 
 Copyright 2020 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 
