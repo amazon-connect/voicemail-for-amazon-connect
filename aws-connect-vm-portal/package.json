@@ -40,12 +40,6 @@
     ]
   },
   "devDependencies": {
-    "aws-sdk": "^2.555.0",
-    "colors": "^1.4.0",
-    "command-line-args": "^5.1.1",
-    "command-line-usage": "^6.0.2",
-    "remote-redux-devtools": "^0.5.16",
-    "replace-in-file": "^5.0.2",
     "@types/jest": "^24.0.19",
     "@types/material-ui": "^0.21.7",
     "@types/node": "^12.11.1",
@@ -56,8 +50,14 @@
     "@types/react-router-dom": "^5.1.0",
     "@types/redux-thunk": "^2.1.0",
     "@types/request-promise": "^4.1.44",
+    "aws-sdk": "^2.555.0",
+    "colors": "^1.4.0",
+    "command-line-args": "^5.1.1",
+    "command-line-usage": "^6.0.2",
     "prop-types": "^15.7.2",
     "react-scripts": "3.2.0",
-    "typescript": "^3.6.4"
+    "remote-redux-devtools": "^0.5.16",
+    "replace-in-file": "^5.0.2",
+    "typescript": "^4.8.4"
   }
 }

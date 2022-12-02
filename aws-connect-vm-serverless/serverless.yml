@@ -17,7 +17,6 @@ service: aws-connect-vm
 
 plugins:
   - serverless-prune-plugin
-  - serverless-pseudo-parameters
 
 custom:
   authorizers:
@@ -38,13 +37,11 @@ package:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   versionFunctions: false
   stage: ${opt:stage, 'prod'}
   region: ${opt:region, 'us-east-1'}
   timeout: 30
-  apiKeys:
-    - ${self:provider.stage}-${self:service}-api-key
 
 functions:
 
@@ -195,7 +192,7 @@ functions:
           path: contact/flow
           authorizer: ${self:custom.authorizers.custom-roles}
     environment:
-      GET_AGENT_BY_EXTENSION_LAMBDA_ARN: "arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:#{GetAgentByExtensionLambdaFunction}"
+      GET_AGENT_BY_EXTENSION_LAMBDA_ARN: !Sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${GetAgentByExtensionLambdaFunction}"
       AMAZON_CONNECT_INSTANCE_ARN: !Ref AmazonConnectInstanceArn
       SOLUTION_ID: !Ref SolutionId
       UUID: !Ref Uuid
@@ -329,7 +326,7 @@ resources:
 
   Resources:
 
-# Cognito
+    # Cognito
     CognitoUserPoolUserPool:
       Type: AWS::Cognito::UserPool
       Properties:
@@ -368,8 +365,6 @@ resources:
 
     AmazonConnectGetAgentLambdaRights:
       Type: AWS::Lambda::Permission
-      Description: >
-        Allows amazon connect to invoke the GetAgentByExtension lambda
       Properties:
         FunctionName:
           Ref: GetAgentByExtensionLambdaFunction
@@ -391,7 +386,7 @@ resources:
         ManagerFirstName: !Ref ManagerFirstName
         ManagerLastName: !Ref ManagerLastName
 
-# Tables
+    # Tables
     UsersTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -459,17 +454,17 @@ resources:
             Projection:
               ProjectionType: ALL
 
-# Kinesis
+    # Kinesis
     DataStream:
       Type: AWS::Kinesis::Stream
       Properties:
         RetentionPeriodHours: !Ref DataStreamRetention
         ShardCount: !Ref DataStreamShardCount
         StreamEncryption:
-            EncryptionType: KMS
-            KeyId: alias/aws/kinesis
+          EncryptionType: KMS
+          KeyId: alias/aws/kinesis
 
-# Bucket
+    # Bucket
     AudioRecordingsBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -501,7 +496,7 @@ resources:
 
     
 
-  # Log Group
+    # Log Group
     ApiAccessLogGroup:
       Type: AWS::Logs::LogGroup
 
@@ -518,14 +513,14 @@ resources:
                   - apigateway.amazonaws.com
               Action: sts:AssumeRole
         ManagedPolicyArns:
-        - "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
+          - "arn:aws:iam::aws:policy/service-role/AmazonAPIGatewayPushToCloudWatchLogs"
 
     ApiGwAccountConfig:
       Type: "AWS::ApiGateway::Account"
       Properties:
         CloudWatchRoleArn: !GetAtt "ApiGwIamRole.Arn"
 
-  # IAM Permissions
+    # IAM Permissions
     ContactVoicemailStreamIamRole:
       DependsOn:
         - VoicemailSecret
@@ -551,7 +546,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - ses:SendRawEmail
@@ -600,7 +595,6 @@ resources:
                     - secretsmanager:GetSecretValue
                   Resource: !Ref VoicemailSecret
 
-
     TranscriptionEventsIamRole:
       Type: AWS::IAM::Role
       Properties:
@@ -624,7 +618,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:Query
@@ -658,7 +652,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:Query
@@ -671,7 +665,7 @@ resources:
                   Action:
                     - connect:ListUsers
                     - connect:DescribeUser
-                  Resource: 
+                  Resource:
                     - !Ref AmazonConnectInstanceArn
                     - Fn::Join:
                         - ''
@@ -701,7 +695,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - cognito-idp:AdminCreateUser
@@ -712,7 +706,7 @@ resources:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                  Resource: 
+                  Resource:
                     - !GetAtt GlobalTable.Arn
 
     AuthorizerIamRole:
@@ -738,7 +732,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
 
     AgentsGetIamRole:
       Type: AWS::IAM::Role
@@ -763,11 +757,11 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:Scan
-                  Resource: 
+                  Resource:
                     - !GetAtt UsersTable.Arn
 
     AgentsUpdateByIdIamRole:
@@ -793,14 +787,14 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:GetItem
                     - dynamodb:PutItem
                     - dynamodb:Query
                     - dynamodb:UpdateItem
-                  Resource: 
+                  Resource:
                     - !GetAtt UsersTable.Arn
                     - Fn::Join:
                       - ''
@@ -838,18 +832,18 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:GetItem
                     - dynamodb:PutItem
-                  Resource: 
+                  Resource:
                     - !GetAtt UsersTable.Arn
                 - Effect: Allow
                   Action:
                     - connect:ListUsers
                     - connect:DescribeUser
-                  Resource: 
+                  Resource:
                     Fn::Join:
                       - ''
                       - - !Ref AmazonConnectInstanceArn
@@ -878,13 +872,13 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:GetItem
                     - dynamodb:PutItem
                     - dynamodb:UpdateItem
-                  Resource: 
+                  Resource:
                     - !GetAtt GlobalTable.Arn
 
     GlobalSettingsGetIamRole:
@@ -910,11 +904,11 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:GetItem
-                  Resource: 
+                  Resource:
                     - !GetAtt GlobalTable.Arn
     
     BuildContactFlowIamRole:
@@ -940,7 +934,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - connect:ListQueues
@@ -973,7 +967,7 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - transcribe:GetTranscriptionJob
@@ -1030,12 +1024,12 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:Scan
                     - dynamodb:BatchWriteItem
-                  Resource: 
+                  Resource:
                     - !GetAtt UsersTable.Arn
                 - Effect: Allow
                   Action:
@@ -1065,12 +1059,12 @@ resources:
                     - logs:CreateLogStream
                     - logs:PutLogEvents
                   Resource:
-                    - !Sub "arn:#{AWS::Partition}:logs:#{AWS::Region}:#{AWS::AccountId}:log-group:/aws/lambda/*"
+                    - !Sub "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/*"
                 - Effect: Allow
                   Action:
                     - dynamodb:Scan
                     - dynamodb:BatchWriteItem
-                  Resource: 
+                  Resource:
                     - !GetAtt UsersTable.Arn
                 - Effect: Allow
                   Action:
@@ -1131,14 +1125,44 @@ resources:
       Metadata:
         cfn_nag:
           rules_to_suppress:
-          - id: W77
-            reason: Uses the account's default AWS managed CMK for Secrets Manager·
+            - id: W77
+              reason: Uses the account's default AWS managed CMK for Secrets Manager·
+
+    ApiGatewayApiKey1:
+      Type: "AWS::ApiGateway::ApiKey"
+      Properties:
+        Enabled: true
+        StageKeys:
+          - RestApiId:
+              Ref: ApiGatewayRestApi
+            StageName: ${self:provider.stage}
+      DependsOn: ApiGatewayDeployment${sls:instanceId}
+    ApiGatewayUsagePlan:
+      Type: "AWS::ApiGateway::UsagePlan"
+      DependsOn: ApiGatewayDeployment${sls:instanceId}
+      Properties:
+        ApiStages:
+          - ApiId:
+              Ref: ApiGatewayRestApi
+            Stage: ${self:provider.stage}
+        Description: Usage plan for aws-connect-vm prod stage
+        Throttle:
+          BurstLimit: 500
+          RateLimit: 50
+    ApiGatewayUsagePlanKey1:
+      Type: "AWS::ApiGateway::UsagePlanKey"
+      Properties:
+        KeyId:
+          Ref: ApiGatewayApiKey1
+        KeyType: API_KEY
+        UsagePlanId:
+          Ref: ApiGatewayUsagePlan
 
   Outputs:
     ApiGatewayApiKey:
-      Value: !Ref ApiGatewayApiKey1
+      Value: !GetAtt ApiGatewayApiKey1.APIKeyId
     CognitoDomain:
-      Value: !Sub "#{UserPoolDomain}.auth.#{AWS::Region}.amazoncognito.com"
+      Value: !Sub "${UserPoolDomain}.auth.${AWS::Region}.amazoncognito.com"
     UserPoolId:
       Value: !Ref CognitoUserPoolUserPool
     UserPoolArn:

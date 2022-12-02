@@ -6,6 +6,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## development branch
 
+## [dev_1.2.0] - 2022-11-02
+Pulling in changes from [Tag 1.1.0](https://github.com/amazon-connect/voicemail-for-amazon-connect/commit/57373cb7d2df186ab9882c639bec53dae2c4d20d) into development so it's no longer stale
+### Changed
+- Updated all dependencies in `source/aws-connect-vm-serverless/pom.xml`
+- Updated `AWS Lambda` runtime to `nodejs16.x` in all templates
+    - `deployment/aws-connect-vm.template`
+    - `deployment/cloudfront.template`
+    - `deployment/copy-artifacts.template`
+    - `deployment/voicemail-for-amazon-connect.template`
+    - `source/aws-connect-vm-serverless/serverless.yml`
+- Updated serverless framework `v1` to `v3`
+  - removed `serverless-pseudo-parameters` from plugin and changes pseudo params format
+  - added `apiKeys` under `Resources` section of `source/aws-connect-vm-serverless/serverless.yml`
+  - Changed all parameter references from `#` (serverless v1) to `$` (serverless v3)
+- changed `source/tools/transform.py` to remove conditions not needed for 2 resources due to the `apiKeys` change
+- Bumping up dependencies in `source/aws-connect-vm-serverless/package.json` to remove vulnerabilities
+- Changes to fix missing value of `SECRET_ARN` from `TranscriptionEvents`, and adding `secretsmanager:GetValue` permissions to `TranscriptionEventsIamRole` in `source/aws-connect-vm-serverless/serverless.yml`
+- Fixed bug where voicemail is not sent for only sms in `source/aws-connect-vm-serverless/src/service/notification.service.js`
+- Add the `QueueTypes` parm to `ListQueues` to reduce number of items returned in `source/aws-connect-vm-serverless/src/service/contact-flow.service.js`
+- Merged in the following PRs:
+  - Remove newline character (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/27)
+  - Bump junit version (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/39)
+  - Improved error handling of many users (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/52)
+  - Use regional domain name for S3 (https://github.com/amazon-connect/voicemail-for-amazon-connect/pull/48)
+
 ## [dev_1.1.0] - 2022-10-31
 ### Added
 - [Voicemail For Amazon Connect implementation guide pdf](voicemail-for-amazon-connect-implementation-guide.pdf)
