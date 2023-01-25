@@ -56,8 +56,8 @@
         ]
     },
     "devDependencies": {
+        "@colors/colors": "^1.5.0",
         "aws-sdk": "^2.555.0",
-        "colors": "^1.4.0",
         "command-line-args": "^5.1.1",
         "command-line-usage": "^6.0.2",
         "remote-redux-devtools": "^0.5.16",

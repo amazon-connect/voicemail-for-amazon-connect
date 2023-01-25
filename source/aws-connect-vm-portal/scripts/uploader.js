@@ -16,7 +16,7 @@ const fs = require('fs');
 const path = require('path');
 const cla = require('command-line-args');
 const clu = require('command-line-usage');
-const colors = require('colors');
+const colors = require('@colors/colors');
 
 function uuid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
