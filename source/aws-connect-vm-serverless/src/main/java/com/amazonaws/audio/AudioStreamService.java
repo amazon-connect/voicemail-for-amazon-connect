@@ -38,8 +38,6 @@ import java.util.Optional;
 public class AudioStreamService {
 
     private static final Regions REGION = Regions.fromName(System.getenv("APP_REGION"));
-    private static final String RECORDINGS_BUCKET_NAME = System.getenv("RECORDINGS_BUCKET_NAME");
-    private static final String RECORDINGS_KEY_PREFIX = System.getenv("RECORDINGS_KEY_PREFIX");
     private static final boolean RECORDINGS_PUBLIC_READ_ACL = Boolean.parseBoolean(System.getenv("RECORDINGS_PUBLIC_READ_ACL"));
     private static final String START_SELECTOR_TYPE = System.getenv("START_SELECTOR_TYPE");
     private static final Logger logger = LoggerFactory.getLogger(AudioStreamService.class);
@@ -55,7 +53,7 @@ public class AudioStreamService {
     public void processAudioStream(
             String streamARN, String startFragmentNum, String agentId, String agentName, String contactId,
             boolean transcribeEnabled, boolean encryptionEnabled, Optional<String> languageCode,
-            Optional<Boolean> saveCallRecording) throws Exception {
+            Optional<Boolean> saveCallRecording, String bucketName, String bucketKeyPrefix) throws Exception {
 
         logger.info(String.format("StreamARN=%s, startFragmentNum=%s, contactId=%s" +
                 "transcribeEnabled=%s, encryptionEnabled=%s", streamARN, startFragmentNum, contactId, transcribeEnabled, encryptionEnabled));
@@ -88,8 +86,8 @@ public class AudioStreamService {
             logger.info(String.format("Closing file and upload raw audio for contactId: %s ... %s Save Call Recording: %b", contactId, saveAudioFilePath, saveCallRecording));
             closeFileAndUploadRawAudio(
                     kvsInputStream, fileOutputStream, saveAudioFilePath, agentId, contactId,
-                    unixTime, saveCallRecording, transcribeEnabled, encryptionEnabled, languageCode.get()
-            );
+                    unixTime, saveCallRecording, transcribeEnabled, encryptionEnabled, languageCode.get(),
+                    bucketName, bucketKeyPrefix);
         }
     }
 
@@ -100,12 +98,14 @@ public class AudioStreamService {
      * @param fileOutputStream
      * @param saveAudioFilePath
      * @param saveCallRecording should the call recording be uploaded to S3?
+     * @param bucketName
+     * @param bucketKeyPrefix
      * @throws IOException
      */
     private void closeFileAndUploadRawAudio(InputStream kvsInputStream, FileOutputStream fileOutputStream,
                                             Path saveAudioFilePath, String agentId, String contactId,
                                             long unixTime, Optional<Boolean> saveCallRecording, boolean transcribeEnabled,
-                                            boolean encryptionEnabled, String languageCode) throws IOException {
+                                            boolean encryptionEnabled, String languageCode, String bucketName, String bucketKeyPrefix) throws IOException {
 
         kvsInputStream.close();
         fileOutputStream.close();
@@ -115,7 +115,7 @@ public class AudioStreamService {
 
         // Upload the Raw Audio file to S3
         if ((saveCallRecording.orElse(false)) && (new File(saveAudioFilePath.toString()).length() > 0)) {
-            S3UploadInfo uploadInfo = AudioUtils.uploadRawAudio(REGION, RECORDINGS_BUCKET_NAME, RECORDINGS_KEY_PREFIX,
+            S3UploadInfo uploadInfo = AudioUtils.uploadRawAudio(REGION, bucketName, bucketKeyPrefix,
                     saveAudioFilePath.toString(), agentId, contactId, RECORDINGS_PUBLIC_READ_ACL, getAWSCredentials());
 
             String transcriptJobName = contactId + "_" + unixTime;
