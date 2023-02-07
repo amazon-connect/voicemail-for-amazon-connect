@@ -47,7 +47,6 @@ public class KVSProcessRecordingLambda implements RequestHandler<KinesisEvent, S
     @Override
     public String handleRequest(KinesisEvent kinesisEvent, Context context) {
         System.out.println("Processing CTR Event");
-        logger.debug("event: {}", kinesisEvent);
 
         for (KinesisEvent.KinesisEventRecord record : kinesisEvent.getRecords()) {
             try {
@@ -77,13 +76,15 @@ public class KVSProcessRecordingLambda implements RequestHandler<KinesisEvent, S
         AmazonDynamoDBClientBuilder builder = AmazonDynamoDBClientBuilder.standard();
         DynamoDB ddbClient = new DynamoDB(builder.build());
 
+        // check if record is telephonic signature
         try {
             Table telephonicSigTable = ddbClient.getTable(TELEPHONIC_SIGNATURES_TABLE);
             Item item = telephonicSigTable.getItem("ContactID", traceRecord.getContactId());
             if (item != null) {
-                //store to a telephonic signature bucket
+                //configure telephonic signature bucket
                 bucketName = TEL_SIG_RECORDINGS_BUCKET_NAME;
                 bucketKeyPrefix = TEL_SIG_RECORDINGS_KEY_PREFIX;
+                logger.info("Identified telephonic signature record!");
             }
         } catch (Exception e) {
             logger.error("Error occurred while validating if record is telephonic signature: ", e);
