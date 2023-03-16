@@ -78,7 +78,7 @@ echo $source_dir
 cd $source_dir/aws-connect-vm-serverless
 npm install
 cd ../aws-connect-vm-portal
-npm install
+npm install --legacy-peer-deps
 cd ..
 npm install typescript
 npm install react-dom

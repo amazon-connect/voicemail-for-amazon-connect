@@ -6,6 +6,10 @@ We have added a new branch to this solution: the "development" branch. The "deve
 
 ## Running unit tests for customization
 * Clone the repository, then make the desired code changes
+* Install jest
+```
+npm install -g jest
+```
 * Next, run unit tests to make sure added customization passes the tests
 ```
 cd ./source/aws-connect-vm-serverless
@@ -19,17 +23,20 @@ export DIST_OUTPUT_BUCKET=my-bucket-name # bucket where customized code will res
 export SOLUTION_NAME=my-solution-name
 export VERSION=my-version # version number for the customized code
 ```
-_Note:_ You would have to create an S3 bucket with the prefix 'my-bucket-name-<aws_region>'; aws_region is where you are testing the customized solution. Also, the assets in bucket should be publicly accessible.
+_Note:_ You would have to create an S3 bucket with the name 'my-bucket-name-<aws_region>'; aws_region is where you are testing the customized solution. Also, the assets in bucket should be accessible from the accounts you will run the CloudFormation stack.
 
+* The build script requires Maven and npm; please ensure you have both of these installed in your environment.
 * Now build the distributable:
 ```
-chmod +x ./build-s3-dist.sh \n
-./build-s3-dist.sh $DIST_OUTPUT_BUCKET $SOLUTION_NAME $VERSION \n
+cd ./deployment
+chmod +x ./build-s3-dist.sh
+./build-s3-dist.sh $DIST_OUTPUT_BUCKET $SOLUTION_NAME $VERSION
 ```
 
 * Deploy the distributable to an Amazon S3 bucket in your account. _Note:_ you must have the AWS Command Line Interface installed.
 ```
-aws s3 cp ./dist/ s3://my-bucket-name-<aws_region>/$SOLUTION_NAME/$VERSION/ --recursive --acl bucket-owner-full-control --profile aws-cred-profile-name \n
+aws s3 cp ./regional-s3-assets  s3://$DIST_OUTPUT_BUCKET-<aws_region>/$SOLUTION_NAME/$VERSION/ --recursive --acl bucket-owner-full-control --profile <aws-cred-profile-name>
+aws s3 cp ./global-s3-assets  s3://$DIST_OUTPUT_BUCKET-<aws_region>/$SOLUTION_NAME/$VERSION/ --recursive --acl bucket-owner-full-control --profile <aws-cred-profile-name>
 ```
 
 * Get the link of the solution template uploaded to your Amazon S3 bucket.
@@ -41,13 +48,12 @@ aws s3 cp ./dist/ s3://my-bucket-name-<aws_region>/$SOLUTION_NAME/$VERSION/ --re
 
 ```
 |-deployment/
-  |-build-s3-dist.sh             [ shell script for packaging distribution assets ]
-  |-run-unit-tests.sh            [ shell script for executing unit tests ]
-  |-solution.yaml                [ solution CloudFormation deployment template ]
+  |-build-s3-dist.sh                        [ shell script for packaging distribution assets ]
+  |-run-unit-tests.sh                       [ shell script for executing unit tests ]
+  |-voicemail-for-amazon-connect.template   [ solution CloudFormation deployment template ]
 |-source/
-  |-example-function-js          [ Example microservice function in javascript ]
-    |- lib/                      [ Example function libraries ]
-  |-example-function-py          [ Example microservice function in python ]
+  |-aws-connect-vm-serverless               [ Backend functions for processing voicemails ]
+  |-aws-connect-vm-portal                   [ Voicemail configuration portal ]
 
 ```
 
