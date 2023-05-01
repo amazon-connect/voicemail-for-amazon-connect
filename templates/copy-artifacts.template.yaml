@@ -52,6 +52,9 @@ Resources:
       Tags: []
       VersioningConfiguration:
         Status: Enabled
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerPreferred
       PublicAccessBlockConfiguration:
         BlockPublicAcls: True
         BlockPublicPolicy: True
@@ -77,7 +80,7 @@ Resources:
             Resource: !Sub 'arn:aws:s3:::${LambdaArtifactsBucket}/*'
             Principal:
               AWS: !Sub '${AWS::AccountId}'
-          - Action: "s3:GetObject"
+          - Action: "s3:*"
             Effect: Deny
             Resource: !Sub 'arn:aws:s3:::${LambdaArtifactsBucket}/*'
             Principal: "*"

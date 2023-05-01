@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## development branch
 
+## [dev_1.2.1] - 2023-05-01
+- Security Updates
+- Fix for S3 Disabling ACL on new bucket creation - [more info](https://aws.amazon.com/blogs/aws/heads-up-amazon-s3-security-changes-are-coming-in-april-of-2023/)
+
 ## [dev_1.2.0] - 2022-11-02
 Pulling in changes from [Tag 1.1.0](https://github.com/amazon-connect/voicemail-for-amazon-connect/commit/57373cb7d2df186ab9882c639bec53dae2c4d20d) into development so it's no longer stale
 ### Changed

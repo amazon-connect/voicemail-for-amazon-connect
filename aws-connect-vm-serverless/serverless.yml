@@ -469,6 +469,9 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         AccessControl: LogDeliveryWrite
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: BucketOwnerPreferred
         VersioningConfiguration:
           Status: Enabled
         PublicAccessBlockConfiguration:

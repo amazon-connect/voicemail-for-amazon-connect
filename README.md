@@ -28,9 +28,9 @@ To deploy the code locally, you need to do the following:
 ```
 cd voicemail-for-amazon-connect
 cd aws-connect-vm-serverless
-npm install
+npm install --legacy-peer-deps
 cd ../aws-connect-vm-portal
-npm install
+npm install --legacy-peer-deps
 cd ..
 pipenv shell
 pipenv install
