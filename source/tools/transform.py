@@ -158,7 +158,7 @@ def transform_template(template, save_path, lambda_zip_key, lambda_jar_key):
                         {
                             "Effect": "Deny",
                             "Principal": "*",
-                            "Action": "s3:GetObject",
+                            "Action": "s3:*",
                             "Resource": {
                                 "Fn::Sub": "arn:aws:s3:::${AudioRecordingsBucket}/*"
                             },

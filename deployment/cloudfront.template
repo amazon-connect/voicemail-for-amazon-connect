@@ -75,7 +75,7 @@ Resources:
             Resource: !Sub 'arn:aws:s3:::${PortalBucket}/*'
             Principal:
               CanonicalUser: !GetAtt CloudFrontOriginAccessIdentity.S3CanonicalUserId
-          - Action: "s3:GetObject"
+          - Action: "s3:*"
             Effect: Deny
             Resource: !Sub 'arn:aws:s3:::${PortalBucket}/*'
             Principal: "*"

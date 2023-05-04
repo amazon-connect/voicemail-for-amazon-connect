@@ -2327,6 +2327,13 @@
         "VersioningConfiguration": {
           "Status": "Enabled"
         },
+        "OwnershipControls":{
+          "Rules": [
+            {
+                "ObjectOwnership": "BucketOwnerPreferred"
+            }
+          ]
+        },
         "PublicAccessBlockConfiguration": {
           "BlockPublicAcls": true,
           "BlockPublicPolicy": true,
@@ -3622,7 +3629,7 @@
             {
               "Effect": "Deny",
               "Principal": "*",
-              "Action": "s3:GetObject",
+              "Action": "s3:*",
               "Resource": {
                 "Fn::Sub": "arn:aws:s3:::${AudioRecordingsBucket}/*"
               },

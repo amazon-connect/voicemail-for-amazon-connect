@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.4] - 2023-05-03
+
+### Changed
+- Modified S3 Bucket creation setting S3 ObjectOwnership to `BucketOwnerPreferred` to enable ACLs. [More Information...](https://aws.amazon.com/blogs/aws/heads-up-amazon-s3-security-changes-are-coming-in-april-of-2023/)
+- Modifyed S3 Deny policies from S3:Bucket to S3:* on the TLS enforcement IAM permissions as this may set off some compliance alarms.
+
 ## [1.1.3] - 2023-03-16
 
 ### Changed

@@ -276,6 +276,9 @@ Resources:
     PortalBucket:
       Type: AWS::S3::Bucket
       Properties:
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: BucketOwnerPreferred
         PublicAccessBlockConfiguration:
           BlockPublicAcls: True
           BlockPublicPolicy: True
@@ -306,7 +309,7 @@ Resources:
         PolicyDocument:
           Statement:
             - Action:
-                - "s3:GetObject"
+                - "s3:*"
               Effect: "Deny"
               Resource: !Sub 'arn:aws:s3:::${VoicemailAccessLogBucket}/*'
               Principal: "*"
@@ -318,6 +321,9 @@ Resources:
       Type: AWS::S3::Bucket
       Properties:
         AccessControl: "LogDeliveryWrite"
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: BucketOwnerPreferred
         PublicAccessBlockConfiguration:
           BlockPublicAcls: True
           BlockPublicPolicy: True

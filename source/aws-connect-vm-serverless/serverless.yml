@@ -470,6 +470,9 @@ resources:
         AccessControl: LogDeliveryWrite
         VersioningConfiguration:
           Status: Enabled
+        OwnershipControls:
+          Rules:
+            - ObjectOwnership: BucketOwnerPreferred
         PublicAccessBlockConfiguration:
           BlockPublicAcls: True
           BlockPublicPolicy: True
