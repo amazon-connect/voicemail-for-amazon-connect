@@ -1,4 +1,7 @@
 # Voicemail for Amazon Connect
+> As of January 1st, 2024 this version of the Voicemail for Amazon Connect solution has been archived and is not currently supported. A completely new implementation of Voicemail for Amazon Connect will replace it soon, however the release date has not been finalized yet.
+This notice will be updated with any updates and details of the new solution. You can sign up for [release notifications](https://docs.github.com/en/account-and-profile/managing-subscriptions-and-notifications-on-github/setting-up-notifications/configuring-notifications#about-participating-and-watching-notifications) to automatically get notified of updates.
+
 This solutions deploys the resources necessary to configure a voicemail system to use with Amazon Connect. See [Solution Architecture](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/).
 
 > Starting in April 2023 Amazon S3 made a change to set the **Bucket Owner Enforced Setting** to be enabled for any newly completed buckets which disables **ACLs**. Since this solution uses Default ACLs, this new default will prevent the CloudFormation stack from deploying. [More Information...](https://aws.amazon.com/blogs/aws/heads-up-amazon-s3-security-changes-are-coming-in-april-of-2023/). 
