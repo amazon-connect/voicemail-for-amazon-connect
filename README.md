@@ -1,6 +1,5 @@
 # Voicemail for Amazon Connect
-> As of January 1st, 2024 this version of the Voicemail for Amazon Connect solution has been archived and is not currently supported. A completely new implementation of Voicemail for Amazon Connect will replace it soon, however the release date has not been finalized yet.
-This notice will be updated with any updates and details of the new solution. You can sign up for [release notifications](https://docs.github.com/en/account-and-profile/managing-subscriptions-and-notifications-on-github/setting-up-notifications/configuring-notifications#about-participating-and-watching-notifications) to automatically get notified of updates.
+> As of January 1st, 2024 this version of the Voicemail for Amazon Connect solution has been archived and is not currently supported. Amazon Connect customers that require a voicemail solution should use [Voicemail Express](https://github.com/amazon-connect/voicemail-express-amazon-connect)
 
 This solutions deploys the resources necessary to configure a voicemail system to use with Amazon Connect. See [Solution Architecture](https://aws.amazon.com/solutions/implementations/voicemail-for-amazon-connect/).
 
