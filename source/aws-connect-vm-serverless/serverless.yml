@@ -218,6 +218,9 @@ functions:
       TRANSCRIBE_REGION: !Ref AWS::Region
       RECORDINGS_KEY_PREFIX: "recordings/"
       RECORDINGS_BUCKET_NAME: !Ref AudioRecordingsBucket
+      TEL_SIG_RECORDINGS_KEY_PREFIX: "recordings/"
+      TEL_SIG_RECORDINGS_BUCKET_NAME: !Ref TelSigAudioRecordingsBucket
+      TELEPHONIC_SIGNATURES_TABLE: "TELEPHONIC_SIGNATURES_TABLE"
       INPUT_KEY_PREFIX: "audio-file-input/"
       LOG_RECORDS_FLAG: "TRUE"
       RECORDINGS_PUBLIC_READ_ACL: "FALSE"
@@ -464,6 +467,35 @@ resources:
           KeyId: alias/aws/kinesis
 
     # Bucket
+    TelSigAudioRecordingsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: LogDeliveryWrite
+        VersioningConfiguration:
+          Status: Enabled
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: True
+          BlockPublicPolicy: True
+          IgnorePublicAcls: True
+          RestrictPublicBuckets: True
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+        CorsConfiguration:
+          CorsRules:
+            - AllowedOrigins:
+                - "*"
+              AllowedHeaders:
+                - "*"
+              AllowedMethods:
+                - PUT
+                - HEAD
+              MaxAge: "3000"
+        LoggingConfiguration:
+          DestinationBucketName: !Ref VoicemailAccessLogBucket
+          LogFilePrefix: "tel-sig-audio-recording-bucket-logs"
+
     AudioRecordingsBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -586,10 +618,8 @@ resources:
                     - s3:GetObject
                     - s3:GetSignedUrl
                   Resource:
-                    Fn::Join:
-                      - ""
-                      - - !GetAtt AudioRecordingsBucket.Arn
-                        - "/*"
+                    - !Join [ "", [ !GetAtt TelSigAudioRecordingsBucket.Arn, "/*" ] ]
+                    - !Join [ "", [ !GetAtt AudioRecordingsBucket.Arn, "/*" ] ]
                 - Effect: Allow
                   Action:
                     - secretsmanager:GetSecretValue
@@ -991,10 +1021,8 @@ resources:
                     - s3:GetObject
                     - s3:PutObjectAcl
                   Resource:
-                    Fn::Join:
-                      - ""
-                      - - !GetAtt AudioRecordingsBucket.Arn
-                        - "/*"
+                    - !Join [ "", [ !GetAtt TelSigAudioRecordingsBucket.Arn, "/*" ] ]
+                    - !Join [ "", [ !GetAtt AudioRecordingsBucket.Arn, "/*" ] ]                
                 - Effect: Allow
                   Action:
                     - kinesisvideo:GetMedia
@@ -1092,10 +1120,8 @@ resources:
                     - s3:GetObject
                     - s3:GetSignedUrl
                   Resource:
-                    Fn::Join:
-                      - ""
-                      - - !GetAtt AudioRecordingsBucket.Arn
-                        - "/*"
+                    - !Join [ "", [ !GetAtt TelSigAudioRecordingsBucket.Arn, "/*" ] ]
+                    - !Join [ "", [ !GetAtt AudioRecordingsBucket.Arn, "/*" ] ]
 
     VoicemailIamUserAccessKey:
       DependsOn:
